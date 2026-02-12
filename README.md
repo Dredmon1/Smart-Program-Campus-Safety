@@ -60,8 +60,8 @@ IST4910/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Dredmon1/IST4910.git
-   cd IST4910
+   git clone https://github.com/Dredmon1/Smart-Program-Campus-Safety.git
+   cd Smart-Program-Campus-Safety
    ```
 
 2. **Open the dashboard:**
