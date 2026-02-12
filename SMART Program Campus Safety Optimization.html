@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoCal-SMART | Unified Command & Ecosystem</title>
+    <meta name="description"
+        content="SoCal-SMART Unified Command Ecosystem — Real-time safety coordination across Los Angeles, Inland Empire, and San Diego.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Leaflet Mapping -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- PDF Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- App Styles -->
+    <link rel="stylesheet" href="smart-styles.css">
+</head>
+
+<body>
+
+    <!-- ======== LOADING SCREEN ======== -->
+    <div id="loading-screen" role="alert" aria-live="polite">
+        <div class="loader-logo"><i class="ph-bold ph-globe-hemisphere-west"></i></div>
+        <p style="color:#f1f5f9; font-size:20px; font-weight:800; letter-spacing:-0.5px;">SoCal SMART</p>
+        <p
+            style="color:#64748b; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:3px; margin-top:4px;">
+            Unified Ecosystem</p>
+        <div class="loader-bar-track">
+            <div class="loader-bar-fill"></div>
+        </div>
+        <p class="loader-text">Initializing secure channels...</p>
+    </div>
+
+    <!-- ======== LOGIN SCREEN ======== -->
+    <div id="login-screen" class="hidden" role="dialog" aria-label="Login">
+        <div class="login-card">
+            <div style="margin-bottom:20px;">
+                <div
+                    style="width:56px;height:56px;background:linear-gradient(135deg,#4f46e5,#0d9488);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                    <i class="ph-bold ph-globe-hemisphere-west" style="font-size:24px;color:white;"></i>
+                </div>
+            </div>
+            <h2>Command Access</h2>
+            <p>Authenticate to SoCal-SMART Unified Ecosystem</p>
+            <input type="text" id="login-name" placeholder="Operator Name" aria-label="Operator name">
+            <select id="login-role" aria-label="Select role">
+                <option value="Commander">Commander</option>
+                <option value="Analyst">Analyst</option>
+                <option value="Field Officer">Field Officer</option>
+            </select>
+            <button class="login-btn" onclick="handleLogin()">Access Command Deck</button>
+        </div>
+    </div>
+
+    <!-- ======== MODAL OVERLAY ======== -->
+    <div id="modal-overlay" class="modal-overlay" role="dialog" aria-label="Product details">
+        <div class="modal-panel">
+            <button class="modal-close" onclick="closeModal()" aria-label="Close modal"><i
+                    class="ph-bold ph-x"></i></button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- ======== MOBILE NAV ======== -->
+    <div id="mobile-nav" class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+        <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu"><i
+                class="ph-bold ph-x"></i></button>
+        <div class="mobile-nav-items">
+            <button onclick="scrollToSection('tactical-hub')">Command Deck</button>
+            <button onclick="scrollToSection('kpi-section')">Performance</button>
+            <button onclick="scrollToSection('charts-section')">Analytics</button>
+            <button onclick="panToRegion('la')">LA Metro</button>
+            <button onclick="panToRegion('ie')">Inland Empire</button>
+            <button onclick="panToRegion('sd')">San Diego</button>
+        </div>
+    </div>
+
+    <!-- ======== NAVIGATION ======== -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-inner">
+            <div class="nav-brand">
+                <div class="nav-brand-icon"><i class="ph-bold ph-globe-hemisphere-west"></i></div>
+                <div>
+                    <h1>SoCal SMART</h1>
+                    <p>Unified Ecosystem</p>
+                </div>
+                <span id="role-badge" class="nav-badge"></span>
+            </div>
+
+            <div class="nav-pillars" aria-label="System status">
+                <div class="nav-pill">
+                    <div class="nav-pill-dot pulse" style="background:var(--shield);"></div><span>Shield Active</span>
+                </div>
+                <div class="nav-pill">
+                    <div class="nav-pill-dot" style="background:var(--iwin);"></div><span>IWIN Ready</span>
+                </div>
+                <div class="nav-pill">
+                    <div class="nav-pill-dot" style="background:var(--horizon);"></div><span>Horizon Online</span>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                    <i id="theme-icon" class="ph-bold ph-moon"></i>
+                </button>
+                <button class="nav-cta" onclick="scrollToSection('tactical-hub')">Open Command Deck</button>
+                <button class="hamburger" onclick="openMobileNav()" aria-label="Open menu">
+                    <i class="ph-bold ph-list"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ======== MAIN CONTENT ======== -->
+    <main class="main-content">
+
+        <!-- HERO -->
+        <header class="hero section-gap">
+            <h2>One Region. <span class="gradient-text">Zero Latency.</span></h2>
+            <p>The SoCal-SMART Program integrates Los Angeles, the Inland Empire, and San Diego into a single
+                intelligent safety net. By combining private sector sensors, public safety response, and predictive
+                data, we deliver <strong>Information When It's Needed (IWIN)</strong> across jurisdictional boundaries.
+            </p>
+        </header>
+
+        <!-- KPI COUNTERS -->
+        <section id="kpi-section" class="section-gap" aria-label="Key performance indicators">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color:var(--shield);">
+                        <i class="ph-fill ph-shield-check"></i>
+                    </div>
+                    <div class="kpi-value" data-target="1402" data-suffix="">0</div>
+                    <div class="kpi-label">Shield Nodes</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color:var(--success);">
+                        <i class="ph-fill ph-chart-line-up"></i>
+                    </div>
+                    <div class="kpi-value" data-target="98.7" data-suffix="%" data-decimals="1">0</div>
+                    <div class="kpi-label">System Uptime</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color:var(--horizon);">
+                        <i class="ph-fill ph-lightning"></i>
+                    </div>
+                    <div class="kpi-value" data-target="0.05" data-suffix="s" data-decimals="2">0</div>
+                    <div class="kpi-label">Avg Latency</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon" style="color:var(--iwin);">
+                        <i class="ph-fill ph-users-three"></i>
+                    </div>
+                    <div class="kpi-value" data-target="23" data-suffix="">0</div>
+                    <div class="kpi-label">Active Units</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PILLAR CARDS -->
+        <section class="section-gap" aria-label="Ecosystem products">
+            <div class="section-header">
+                <i class="ph-duotone ph-package"></i>
+                <h3>Core Ecosystem Products</h3>
+            </div>
+            <div class="pillar-grid">
+                <div class="pillar-card shield" onclick="openPillarModal('shield')" tabindex="0" role="button"
+                    aria-label="View SMART-Shield details">
+                    <div class="pillar-top">
+                        <div class="pillar-icon shield-icon"><i class="ph-fill ph-shield-check"></i></div>
+                        <span class="pillar-badge">Sensor Layer</span>
+                    </div>
+                    <h4>SMART-Shield</h4>
+                    <p>Private Security Integration. A B2B solution for logistics hubs and ports. Geofences assets and
+                        triggers instant alerts upon unauthorized exit.</p>
+                </div>
+                <div class="pillar-card iwin" onclick="openPillarModal('iwin')" tabindex="0" role="button"
+                    aria-label="View IWIN Suite details">
+                    <div class="pillar-top">
+                        <div class="pillar-icon iwin-icon"><i class="ph-fill ph-siren"></i></div>
+                        <span class="pillar-badge">Response Layer</span>
+                    </div>
+                    <h4>IWIN Tactical Suite</h4>
+                    <p>Law Enforcement SaaS. Replaces legacy radios with tablet-based Digital Twins. 3D floor plans,
+                        HazMat data, and cross-county pursuit hand-offs.</p>
+                </div>
+                <div class="pillar-card horizon" onclick="openPillarModal('horizon')" tabindex="0" role="button"
+                    aria-label="View Horizon API details">
+                    <div class="pillar-top">
+                        <div class="pillar-icon horizon-icon"><i class="ph-fill ph-chart-polar"></i></div>
+                        <span class="pillar-badge">Intel Layer</span>
+                    </div>
+                    <h4>Horizon API</h4>
+                    <p>Predictive Data (DaaS). An API for urban planners and autonomous logistics. Dynamic risk scores
+                        and Safe Path routing algorithms.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BUNDLE DEALS -->
+        <section class="section-gap" aria-label="Bundle packages">
+            <div class="section-header">
+                <i class="ph-duotone ph-gift"></i>
+                <h3>Multi-Product Bundles — Save up to 35%</h3>
+            </div>
+            <div class="pillar-grid">
+
+                <!-- Bundle 1: Regional Starter -->
+                <div class="pillar-card shield" onclick="openBundleModal('starter')" tabindex="0" role="button"
+                    aria-label="View Regional Starter bundle">
+                    <div class="pillar-top">
+                        <div class="pillar-icon shield-icon"><i class="ph-fill ph-star"></i></div>
+                        <span class="pillar-badge">Save 15%</span>
+                    </div>
+                    <h4>Regional Starter</h4>
+                    <p style="margin-bottom:12px;">Shield + IWIN combined for agencies starting their digital
+                        transformation. Ideal for single-county deployments.</p>
+                    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;">
+                        <span style="font-size:28px;font-weight:900;color:var(--shield);">$499</span>
+                        <span style="font-size:12px;color:var(--text-muted);">/month base</span>
+                    </div>
+                    <span style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">$588/mo
+                        separately</span>
+                </div>
+
+                <!-- Bundle 2: Full Spectrum -->
+                <div class="pillar-card iwin" onclick="openBundleModal('spectrum')" tabindex="0" role="button"
+                    aria-label="View Full Spectrum bundle" style="position:relative;overflow:visible;">
+                    <div
+                        style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#4f46e5,#0d9488);color:white;font-size:10px;font-weight:800;padding:5px 16px;border-radius:8px;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;">
+                        Most Popular</div>
+                    <div class="pillar-top">
+                        <div class="pillar-icon iwin-icon"><i class="ph-fill ph-crown"></i></div>
+                        <span class="pillar-badge">Save 25%</span>
+                    </div>
+                    <h4>Full Spectrum</h4>
+                    <p style="margin-bottom:12px;">All 3 products — Shield + IWIN + Horizon API. Complete ecosystem
+                        coverage for multi-county operations.</p>
+                    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;">
+                        <span style="font-size:28px;font-weight:900;color:var(--iwin);">$899</span>
+                        <span style="font-size:12px;color:var(--text-muted);">/month base</span>
+                    </div>
+                    <span style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">$1,198/mo
+                        separately</span>
+                </div>
+
+                <!-- Bundle 3: Enterprise Command -->
+                <div class="pillar-card horizon" onclick="openBundleModal('enterprise')" tabindex="0" role="button"
+                    aria-label="View Enterprise Command bundle">
+                    <div class="pillar-top">
+                        <div class="pillar-icon horizon-icon"><i class="ph-fill ph-buildings"></i></div>
+                        <span class="pillar-badge">Save 35%</span>
+                    </div>
+                    <h4>Enterprise Command</h4>
+                    <p style="margin-bottom:12px;">Full Spectrum + dedicated infrastructure, custom AI models, 24/7
+                        premium support, and SLA guarantees.</p>
+                    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;">
+                        <span style="font-size:28px;font-weight:900;color:var(--horizon);">$1,499</span>
+                        <span style="font-size:12px;color:var(--text-muted);">/month base</span>
+                    </div>
+                    <span style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">$2,306/mo
+                        separately</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TACTICAL HUB -->
+        <section id="tactical-hub" class="tactical-hub section-gap" aria-label="Tactical operations">
+            <div class="tactical-toolbar">
+                <div class="toolbar-left">
+                    <div class="toolbar-status-dot"></div>
+                    <span class="toolbar-label">Live Operations: Southern California Sector</span>
+                </div>
+                <div class="toolbar-right">
+                    <input type="text" id="feed-search" class="search-input" placeholder="Filter feed..."
+                        oninput="filterFeed()" aria-label="Search feed">
+                    <button class="toolbar-btn" onclick="panToRegion('la')">LA Metro</button>
+                    <button class="toolbar-btn" onclick="panToRegion('ie')">Inland Empire</button>
+                    <button class="toolbar-btn" onclick="panToRegion('sd')">San Diego</button>
+                    <div class="toolbar-divider"></div>
+                    <button id="live-mode-btn" class="toolbar-btn" onclick="toggleLiveMode()">▶ Live Mode</button>
+                    <button class="toolbar-btn-primary" onclick="runSimulation()">
+                        <i class="ph-bold ph-play"></i> Simulate Breach
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sim Timeline -->
+            <div id="sim-timeline" class="sim-timeline" aria-label="Simulation progress">
+                <span
+                    style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Progress:</span>
+                <div class="sim-phase" data-phase="1">1. Shield Breach</div>
+                <div class="sim-phase" data-phase="2">2. IWIN Dispatch</div>
+                <div class="sim-phase" data-phase="3">3. Horizon Intel</div>
+                <div class="sim-phase" data-phase="4">4. Containment</div>
+            </div>
+
+            <div class="tactical-body">
+                <!-- Feed Panel -->
+                <div class="feed-panel">
+                    <div class="feed-header">
+                        <h4>Ecosystem Activity Log</h4>
+                    </div>
+                    <div id="intel-feed" class="feed-list">
+                        <div class="feed-placeholder"
+                            style="color:var(--text-muted);font-style:italic;text-align:center;margin-top:40px;">System
+                            Ready. Waiting for trigger...</div>
+                    </div>
+                    <div class="feed-footer">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                            <span
+                                style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;">Latency</span>
+                            <span style="font-size:10px;font-weight:700;color:var(--success);">0.05ms</span>
+                        </div>
+                        <div class="latency-bar-track">
+                            <div class="latency-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Map -->
+                <div class="map-container">
+                    <div id="tactical-map"></div>
+                    <div class="map-legend">
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background:var(--iwin);"></div>IWIN Police Unit
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background:var(--shield);"></div>Shield Logistics Hub
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background:var(--danger);"></div>Hospital / Trauma
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background:#f97316;"></div>Fire Station
+                        </div>
+                    </div>
+                    <div class="map-layers">
+                        <button class="layer-btn" data-layer="hospitals" onclick="toggleLayer('hospitals')">🏥
+                            Hospitals</button>
+                        <button class="layer-btn" data-layer="fire" onclick="toggleLayer('fire')">🚒 Fire
+                            Stations</button>
+                        <button class="layer-btn" data-layer="heat" onclick="toggleLayer('heat')">🔥 Heatmap</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHARTS SECTION -->
+        <section id="charts-section" aria-label="Analytics">
+
+            <!-- Row 1: Radar + Latency Line -->
+            <div class="charts-grid section-gap">
+                <div class="chart-panel">
+                    <h3>Regional Threat Profiles</h3>
+                    <p class="chart-desc">Each hub utilizes the SMART ecosystem differently based on local geography and
+                        industry.</p>
+                    <div class="chart-btns">
+                        <button class="chart-btn active"
+                            onclick="updateRadar('la');this.parentNode.querySelector('.active')?.classList.remove('active');this.classList.add('active')">LA</button>
+                        <button class="chart-btn"
+                            onclick="updateRadar('ie');this.parentNode.querySelector('.active')?.classList.remove('active');this.classList.add('active')">IE</button>
+                        <button class="chart-btn"
+                            onclick="updateRadar('sd');this.parentNode.querySelector('.active')?.classList.remove('active');this.classList.add('active')">SD</button>
+                    </div>
+                    <div class="chart-container"><canvas id="radarChart"></canvas></div>
+                </div>
+
+                <div class="chart-panel">
+                    <h3>Ecosystem Efficiency</h3>
+                    <p class="chart-desc">Communication latency reduction after implementing the IWIN Suite.</p>
+                    <div class="stat-grid">
+                        <div class="stat-box legacy">
+                            <div class="stat-box-label">Legacy System</div>
+                            <div class="stat-box-value">12m 30s</div>
+                            <div class="stat-box-sub">Avg. Handoff Time</div>
+                        </div>
+                        <div class="stat-box modern">
+                            <div class="stat-box-label">SMART Integrated</div>
+                            <div class="stat-box-value" style="color:var(--horizon);">0.05s</div>
+                            <div class="stat-box-sub">Avg. Handoff Time</div>
+                        </div>
+                    </div>
+                    <div class="chart-btns">
+                        <button class="chart-btn latency-btn" data-range="24h"
+                            onclick="updateLatencyRange('24h')">24h</button>
+                        <button class="chart-btn latency-btn" data-range="7d"
+                            onclick="updateLatencyRange('7d')">7d</button>
+                        <button class="chart-btn latency-btn active" data-range="30d"
+                            onclick="updateLatencyRange('30d')">30d</button>
+                    </div>
+                    <div class="chart-container" style="height:180px;"><canvas id="latencyChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Row 2: Bar + Doughnut -->
+            <div class="charts-grid">
+                <div class="chart-panel">
+                    <h3>Resource Allocation</h3>
+                    <p class="chart-desc">Distribution of officers, sensors, and drones across the three regional hubs.
+                    </p>
+                    <div class="chart-container"><canvas id="barChart"></canvas></div>
+                </div>
+                <div class="chart-panel">
+                    <h3>Incident Breakdown</h3>
+                    <p class="chart-desc">Proportional distribution of incident types across the SoCal-SMART ecosystem.
+                    </p>
+                    <div class="chart-container"><canvas id="doughnutChart"></canvas></div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ======== FOOTER ======== -->
+    <footer class="app-footer" role="contentinfo">
+        <div style="max-width:1280px;margin:0 auto;">
+            <div class="footer-stack">
+                <i class="ph-duotone ph-stack"></i>
+                <span>Powered by ArcGIS Enterprise</span>
+            </div>
+            <div class="footer-products">
+                <div>
+                    <div class="footer-product-name">ArcGIS Pro</div>
+                    <div class="footer-product-sub">Historical Analysis</div>
+                </div>
+                <div>
+                    <div class="footer-product-name">GeoEvent Server</div>
+                    <div class="footer-product-sub">Real-Time Engine</div>
+                </div>
+                <div>
+                    <div class="footer-product-name">Dashboards</div>
+                    <div class="footer-product-sub">Command Visualization</div>
+                </div>
+            </div>
+            <div class="footer-actions">
+                <button class="footer-btn" onclick="exportPDF()"><i class="ph-bold ph-file-pdf"></i> Export PDF</button>
+                <button class="footer-btn" onclick="toggleTheme()"><i class="ph-bold ph-moon"></i> Toggle Theme</button>
+            </div>
+            <p class="footer-copy" style="margin-top:24px;">
+                &copy; 2026 SoCal SMART Consortium. All rights reserved.<br>
+                Built for the Inland Empire, Los Angeles, and San Diego Public Safety Cooperative.
+            </p>
+        </div>
+    </footer>
+
+    <!-- App Logic -->
+    <script src="smart-app.js"></script>
+
+    <!-- Show login after loading screen -->
+    <script>
+        setTimeout(() => {
+            document.getElementById('login-screen').classList.remove('hidden');
+        }, 2900);
+    </script>
+</body>
+
+</html>
