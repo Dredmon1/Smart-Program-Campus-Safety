@@ -5,4 +5,46 @@ services:
       - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
+    depends_on:
+      - mysql
     restart: unless-stopped
+
+  api:
+    build: .
+    command: python api_server.py
+    ports:
+      - "5000:5000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=development
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=scs_admin
+      - MYSQL_PASSWORD=SCS_Secure_2026!
+      - MYSQL_DATABASE=scs_command
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: SCS_Root_2026!
+      MYSQL_DATABASE: scs_command
+      MYSQL_USER: scs_admin
+      MYSQL_PASSWORD: SCS_Secure_2026!
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pSCS_Root_2026!"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  mysql_data:

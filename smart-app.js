@@ -46,6 +46,26 @@ const pillarData = {
             { name: 'Growth', price: '$499', unit: '/month', desc: '100,000 API calls', highlights: ['Everything in Developer', 'Safe Path routing', 'Predictive modeling', 'Priority support'], cta: 'Get Started', popular: true },
             { name: 'Enterprise', price: '$999', unit: '/month', desc: 'Unlimited calls', highlights: ['Everything in Growth', 'Dedicated infrastructure', 'Custom model training', 'Premium SLA + CSM'], cta: 'Contact Sales' }
         ]
+    },
+    cyberguard: {
+        title: 'CyberGuard SOC', subtitle: 'Security Operations Center', color: '#dc2626',
+        desc: 'Managed 24/7 security monitoring service for agencies without in-house SOC teams. Threat detection, incident response, and compliance reporting.',
+        features: ['24/7 SIEM monitoring & alerting', 'Automated threat hunting & triage', 'Incident response playbooks', 'Vulnerability scanning & patching', 'Compliance audit reports (CJIS, NIST)', 'Dark web credential monitoring'],
+        pricing: [
+            { name: 'Basic', price: '$299', unit: '/month', desc: 'Per agency', highlights: ['SIEM monitoring', 'Email alerts', 'Monthly reports', 'Business hours support'], cta: 'Start Free Trial' },
+            { name: 'Advanced', price: '$599', unit: '/month', desc: 'Per agency', highlights: ['Everything in Basic', 'Threat hunting', 'Incident response', '24/7 monitoring'], cta: 'Get Started', popular: true },
+            { name: '24/7 Elite', price: '$999', unit: '/month', desc: 'Per agency', highlights: ['Everything in Advanced', 'Dedicated analyst team', 'Pen testing quarterly', 'Compliance guarantee'], cta: 'Contact Sales' }
+        ]
+    },
+    trainforce: {
+        title: 'TrainForce Academy', subtitle: 'Training & Certification Platform', color: '#8b5cf6',
+        desc: 'Online training and certification platform for all SCS products. Video courses, simulation labs, and compliance certifications with progress tracking.',
+        features: ['Interactive video course library', 'Hands-on simulation labs', 'CJIS & POST compliance modules', 'Progress tracking & analytics', 'Certifications with digital badges', 'Custom agency curricula'],
+        pricing: [
+            { name: 'Individual', price: '$29', unit: '/user/month', desc: 'Single user', highlights: ['Full course library', 'Simulation labs', 'Basic certifications', 'Self-paced learning'], cta: 'Start Free Trial' },
+            { name: 'Agency', price: '$19', unit: '/user/month', desc: '25+ users', highlights: ['Everything in Individual', 'Admin dashboard', 'Compliance tracking', 'Custom curricula'], cta: 'Get Started', popular: true },
+            { name: 'Enterprise', price: '$49', unit: '/user/month', desc: 'Unlimited + LMS', highlights: ['Everything in Agency', 'White-label LMS', 'Dedicated trainer', 'On-site workshops'], cta: 'Contact Sales' }
+        ]
     }
 };
 

@@ -60,6 +60,9 @@ The SoCal-SMART (Southern California — Security, Monitoring, Analytics & Respo
 | **HTML5** | Page structure & semantic layout |
 | **CSS3** | Custom styling with CSS variables, animations & glassmorphism |
 | **JavaScript (ES6+)** | Application logic, state management & interactivity |
+| **Python / Flask** | REST API backend with MySQL integration |
+| **MySQL 8.0** | Relational database (incidents, units, users, audit log) |
+| **Docker** | Containerized deployment (dashboard + API + MySQL) |
 | **Leaflet.js** | Interactive mapping with tile layers & marker animations |
 | **Chart.js** | Data visualization (radar, bar, doughnut, line charts) |
 | **jsPDF** | Client-side PDF report generation |
@@ -72,11 +75,26 @@ The SoCal-SMART (Southern California — Security, Monitoring, Analytics & Respo
 
 ```
 IST4910/
-├── SMART Program Campus Safety Optimization.html   # Main dashboard (production)
-├── SMART Program Campus Safety Optimization.py     # Standalone prototype version
+├── SMART Program Campus Safety Optimization.html   # Main dashboard
 ├── smart-app.js                                     # Core application logic
 ├── smart-styles.css                                 # Stylesheet & design system
-├── .gitignore                                       # Git ignore rules
+├── api_server.py                                    # Flask REST API (MySQL + fallback)
+├── run_dashboard.py                                 # Local dev server
+├── requirements.txt                                 # Python dependencies
+├── Dockerfile                                       # Docker image definition
+├── docker-compose.yml                               # Multi-service (dashboard + API + MySQL)
+├── db/
+│   └── schema.sql                                   # MySQL schema (7 tables + seed data)
+├── tests/
+│   ├── test_api.py                                  # Python API unit tests
+│   └── test_security.js                             # JS security function tests
+├── docs/
+│   ├── DEPLOYMENT_GUIDE.md                          # Local, Docker & cloud deployment
+│   ├── SYSTEM_REQUIREMENTS.md                       # Hardware & software specs
+│   ├── NETWORK_ARCHITECTURE.md                      # Network topology & diagrams
+│   ├── SENSOR_INTEGRATION.md                        # Sensor hardware specs & protocols
+│   ├── COMPARISON_MATRIX.md                         # Competitive analysis
+│   └── DEMO_SCRIPT.md                               # 15-min presentation script
 ├── LICENSE                                          # MIT License
 └── README.md                                        # This file
 ```
@@ -85,19 +103,32 @@ IST4910/
 
 ## ⚡ Getting Started
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Dredmon1/Smart-Program-Campus-Safety.git
-   cd Smart-Program-Campus-Safety
-   ```
+### Option 1: Static Dashboard (Simplest)
+```bash
+git clone https://github.com/Dredmon1/Smart-Program-Campus-Safety.git
+cd Smart-Program-Campus-Safety
+python run_dashboard.py
+```
 
-2. **Open the dashboard:**
-   - Open `SMART Program Campus Safety Optimization.html` in a modern web browser
-   - No build tools or server required — it's a static web application
+### Option 2: Dashboard + Flask API
+```bash
+pip install -r requirements.txt
+python api_server.py        # Terminal 1 → http://localhost:5000
+python run_dashboard.py     # Terminal 2 → http://localhost:8000
+```
 
-3. **Login:**
-   - Select a role (Command, Analyst, or Field Officer)
-   - Click **"Access Command Deck"** to enter the dashboard
+### Option 3: Docker (Full Stack with MySQL)
+```bash
+docker-compose up -d --build
+# Dashboard: http://localhost:8000
+# API:       http://localhost:5000/api/health
+# MySQL:     localhost:3306
+```
+
+### Login
+- Fill in name, email, badge number, agency, and role
+- Solve the CAPTCHA and click **"Access Command Deck"**
+- Complete 2FA verification
 
 4. **Run via Local Server (Recommended):**
    - We've included a script to avoid browser security restrictions (CORS) with local files.
