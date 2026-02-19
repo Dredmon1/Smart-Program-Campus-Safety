@@ -2707,3 +2707,556 @@ handleLogin = function () {
     initPasswordStrength();
     initCAPTCHA();
 })();
+
+// ============ ENHANCEMENT FEATURES ============
+
+// --- Feature E-1: PWA Registration ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').then(function (reg) {
+            console.log('[PWA] Service Worker registered, scope:', reg.scope);
+        }).catch(function (err) {
+            console.log('[PWA] SW registration failed:', err);
+        });
+    });
+}
+
+// --- Feature E-2: Global Search ---
+function initGlobalSearch() {
+    // Add search icon to nav
+    var nav = document.querySelector('.nav-actions');
+    if (!nav) return;
+    var btn = document.createElement('button');
+    btn.className = 'nav-btn';
+    btn.id = 'global-search-btn';
+    btn.title = 'Search (Ctrl+K)';
+    btn.innerHTML = '<i class="ph-bold ph-magnifying-glass"></i>';
+    btn.onclick = function () { toggleSearchOverlay(); };
+    nav.insertBefore(btn, nav.firstChild);
+
+    // Keyboard shortcut
+    document.addEventListener('keydown', function (e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            toggleSearchOverlay();
+        }
+        if (e.key === 'Escape') {
+            var ov = document.getElementById('search-overlay');
+            if (ov) ov.remove();
+        }
+    });
+}
+
+function toggleSearchOverlay() {
+    var existing = document.getElementById('search-overlay');
+    if (existing) { existing.remove(); return; }
+
+    var searchData = [
+        { cat: 'Incidents', items: ['Cargo Theft — Port of LA', 'Traffic Collision — I-710', 'Suspicious Package — Union Station', 'Wildfire — SB Foothills'] },
+        { cat: 'Units', items: ['UNIT-03 Alpha-3 (Patrol)', 'UNIT-07 Bravo-7 (Traffic)', 'UNIT-12 Charlie-12 (Tactical)', 'UNIT-15 Delta-15 (K9)', 'UNIT-22 Foxtrot-22 (Fire)', 'UNIT-30 Hotel-30 (SWAT)'] },
+        { cat: 'Products', items: ['SMART-Shield', 'IWIN Tactical Suite', 'Horizon API', 'CyberGuard SOC', 'TrainForce Academy'] },
+        { cat: 'Pages', items: ['Command Map', 'Analytics Dashboard', 'Audit Log', 'Resource Allocation', 'API Documentation', 'User Profile', 'Admin Security Panel'] },
+        { cat: 'Geofences', items: ['Port of Los Angeles', 'LAX Airport Perimeter', 'USC Campus Perimeter', 'Disneyland Resort', 'Camp Pendleton Gate'] }
+    ];
+
+    var ov = document.createElement('div');
+    ov.id = 'search-overlay';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);z-index:99999;display:flex;align-items:flex-start;justify-content:center;padding-top:15vh;';
+    ov.onclick = function (e) { if (e.target === ov) ov.remove(); };
+
+    var box = document.createElement('div');
+    box.style.cssText = 'background:var(--bg-panel);border:1px solid var(--border);border-radius:20px;width:92%;max-width:560px;box-shadow:0 24px 80px rgba(0,0,0,0.4);overflow:hidden;';
+
+    var header = '<div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;">' +
+        '<i class="ph-bold ph-magnifying-glass" style="font-size:18px;color:var(--text-muted);"></i>' +
+        '<input id="search-input" type="text" placeholder="Search incidents, units, products…" style="flex:1;background:none;border:none;outline:none;font-size:15px;font-family:Inter,sans-serif;color:var(--text-primary);">' +
+        '<kbd style="font-size:10px;background:var(--bg-panel-alt);padding:3px 8px;border-radius:6px;color:var(--text-muted);font-family:JetBrains Mono,monospace;">ESC</kbd></div>';
+
+    var results = '<div id="search-results" style="max-height:50vh;overflow-y:auto;padding:12px 16px;">';
+    searchData.forEach(function (group) {
+        results += '<div class="search-group" style="margin-bottom:12px;"><div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:6px;">' + group.cat + '</div>';
+        group.items.forEach(function (item) {
+            results += '<div class="search-item" data-text="' + item.toLowerCase() + '" style="padding:8px 12px;border-radius:10px;font-size:13px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background=\'var(--bg-panel-alt)\'" onmouseout="this.style.background=\'none\'" onclick="document.getElementById(\'search-overlay\').remove()"><i class="ph-bold ph-caret-right" style="font-size:10px;color:var(--iwin);margin-right:8px;"></i>' + item + '</div>';
+        });
+        results += '</div>';
+    });
+    results += '</div>';
+
+    box.innerHTML = header + results;
+    ov.appendChild(box);
+    document.body.appendChild(ov);
+    setTimeout(function () {
+        var inp = document.getElementById('search-input');
+        if (inp) {
+            inp.focus();
+            inp.oninput = function () {
+                var q = this.value.toLowerCase();
+                var items = document.querySelectorAll('.search-item');
+                items.forEach(function (el) {
+                    el.style.display = el.getAttribute('data-text').indexOf(q) > -1 ? '' : 'none';
+                });
+                document.querySelectorAll('.search-group').forEach(function (g) {
+                    var visible = g.querySelectorAll('.search-item[style*="display: none"]');
+                    var total = g.querySelectorAll('.search-item');
+                    g.style.display = visible.length === total.length ? 'none' : '';
+                });
+            };
+        }
+    }, 50);
+}
+
+// --- Feature E-3: Multi-language (i18n) ---
+var i18n = {
+    en: { dashboard: 'Command Dashboard', incidents: 'Incidents', units: 'Active Units', map: 'Command Map', analytics: 'Analytics', products: 'Products', search: 'Search', profile: 'User Profile', login: 'Access Command Deck', logout: 'Logout', settings: 'Settings', threat: 'Threat Level', uptime: 'System Uptime', latency: 'Avg Latency', welcome: 'Welcome to SCS', weather: 'Weather', schedule: 'Schedule', messages: 'Messages' },
+    es: { dashboard: 'Panel de Comando', incidents: 'Incidentes', units: 'Unidades Activas', map: 'Mapa de Comando', analytics: 'Analíticas', products: 'Productos', search: 'Buscar', profile: 'Perfil de Usuario', login: 'Acceder al Deck', logout: 'Cerrar Sesión', settings: 'Configuración', threat: 'Nivel de Amenaza', uptime: 'Tiempo Activo', latency: 'Latencia Prom.', welcome: 'Bienvenido a SCS', weather: 'Clima', schedule: 'Horario', messages: 'Mensajes' },
+    fr: { dashboard: 'Tableau de Bord', incidents: 'Incidents', units: 'Unités Actives', map: 'Carte de Commande', analytics: 'Analytique', products: 'Produits', search: 'Rechercher', profile: 'Profil Utilisateur', login: 'Accéder au Deck', logout: 'Déconnexion', settings: 'Paramètres', threat: 'Niveau de Menace', uptime: 'Disponibilité', latency: 'Latence Moy.', welcome: 'Bienvenue à SCS', weather: 'Météo', schedule: 'Horaire', messages: 'Messages' },
+    zh: { dashboard: '指挥仪表板', incidents: '事件', units: '活跃单位', map: '指挥地图', analytics: '分析', products: '产品', search: '搜索', profile: '用户资料', login: '进入指挥台', logout: '退出', settings: '设置', threat: '威胁等级', uptime: '运行时间', latency: '平均延迟', welcome: '欢迎使用SCS', weather: '天气', schedule: '排班', messages: '消息' }
+};
+
+var currentLang = 'en';
+function setLanguage(lang) {
+    currentLang = lang;
+    var strings = i18n[lang] || i18n.en;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n');
+        if (strings[key]) el.textContent = strings[key];
+    });
+    if (typeof addAuditEntry === 'function') addAuditEntry('Language changed to ' + lang.toUpperCase());
+}
+
+// Wire up existing language selector
+(function wireLanguageSelector() {
+    var sel = document.getElementById('lang-select');
+    if (sel) {
+        sel.addEventListener('change', function () {
+            setLanguage(this.value);
+        });
+    }
+})();
+
+// --- Feature E-4: Weather Integration ---
+function initWeatherPanel() {
+    var conditions = [
+        { icon: 'ph-sun', label: 'Clear Skies', temp: 72, wind: '5 mph SW', humidity: '35%', risk: 'Low', color: '#10b981' },
+        { icon: 'ph-cloud-sun', label: 'Partly Cloudy', temp: 68, wind: '8 mph W', humidity: '42%', risk: 'Low', color: '#10b981' },
+        { icon: 'ph-wind', label: 'High Winds', temp: 78, wind: '35 mph NE', humidity: '15%', risk: 'High — Fire Risk', color: '#ef4444' },
+        { icon: 'ph-cloud-rain', label: 'Rain Advisory', temp: 58, wind: '12 mph S', humidity: '85%', risk: 'Medium — Flooding', color: '#f59e0b' },
+        { icon: 'ph-thermometer-hot', label: 'Extreme Heat', temp: 105, wind: '3 mph', humidity: '8%', risk: 'High — Heat Alert', color: '#ef4444' }
+    ];
+    var w = conditions[Math.floor(Math.random() * conditions.length)];
+
+    var nav = document.querySelector('.nav-actions');
+    if (!nav) return;
+    var weatherBtn = document.createElement('button');
+    weatherBtn.className = 'nav-btn';
+    weatherBtn.title = 'Weather Conditions';
+    weatherBtn.innerHTML = '<i class="ph-bold ' + w.icon + '" style="color:' + w.color + ';"></i>';
+    weatherBtn.onclick = function () {
+        var existing = document.getElementById('weather-panel');
+        if (existing) { existing.remove(); return; }
+        var panel = document.createElement('div');
+        panel.id = 'weather-panel';
+        panel.style.cssText = 'position:fixed;top:60px;right:16px;width:280px;background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 16px 48px rgba(0,0,0,0.3);z-index:9999;';
+        panel.innerHTML =
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">' +
+            '<h4 style="font-size:14px;font-weight:800;"><i class="ph-bold ' + w.icon + '" style="margin-right:6px;color:' + w.color + ';"></i>Weather</h4>' +
+            '<button onclick="document.getElementById(\'weather-panel\').remove()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;">&times;</button></div>' +
+            '<div style="text-align:center;margin-bottom:16px;"><div style="font-size:42px;font-weight:900;color:' + w.color + ';">' + w.temp + '°F</div><div style="font-size:13px;color:var(--text-muted);">' + w.label + '</div></div>' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+            '<div style="background:var(--bg-panel-alt);padding:10px;border-radius:10px;"><div style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;">Wind</div><div style="font-size:13px;font-weight:700;margin-top:2px;">' + w.wind + '</div></div>' +
+            '<div style="background:var(--bg-panel-alt);padding:10px;border-radius:10px;"><div style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;">Humidity</div><div style="font-size:13px;font-weight:700;margin-top:2px;">' + w.humidity + '</div></div>' +
+            '</div>' +
+            '<div style="margin-top:12px;padding:10px;border-radius:10px;background:rgba(' + (w.risk.indexOf('High') > -1 ? '239,68,68' : w.risk.indexOf('Medium') > -1 ? '245,158,11' : '16,185,129') + ',0.1);text-align:center;">' +
+            '<div style="font-size:9px;font-weight:800;text-transform:uppercase;color:var(--text-muted);">Operations Risk</div>' +
+            '<div style="font-size:14px;font-weight:800;color:' + w.color + ';margin-top:4px;">' + w.risk + '</div></div>';
+        document.body.appendChild(panel);
+        setTimeout(function () { document.addEventListener('click', function closeW(e) { if (!panel.contains(e.target) && e.target !== weatherBtn) { panel.remove(); document.removeEventListener('click', closeW); } }); }, 100);
+    };
+    nav.insertBefore(weatherBtn, nav.children[1]);
+}
+
+// --- Feature E-5: Shift Scheduling Panel ---
+function openShiftScheduler() {
+    var existing = document.getElementById('shift-overlay');
+    if (existing) { existing.remove(); return; }
+
+    var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    var shifts = [
+        { name: 'Sgt. Martinez', unit: 'Alpha-3', shifts: [1, 1, 1, 0, 0, 1, 1] },
+        { name: 'Off. Chen', unit: 'Bravo-7', shifts: [0, 1, 1, 1, 1, 0, 0] },
+        { name: 'Det. Williams', unit: 'Charlie-12', shifts: [1, 1, 0, 0, 1, 1, 1] },
+        { name: 'Off. Garcia', unit: 'Delta-15', shifts: [1, 0, 1, 1, 1, 0, 0] },
+        { name: 'Off. Thompson', unit: 'Echo-18', shifts: [0, 0, 1, 1, 1, 1, 0] },
+        { name: 'Cap. Anderson', unit: 'Foxtrot-22', shifts: [1, 1, 1, 1, 0, 0, 1] },
+        { name: 'Lt. Brooks', unit: 'Hotel-30', shifts: [0, 1, 0, 1, 1, 1, 1] }
+    ];
+
+    var ov = document.createElement('div');
+    ov.id = 'shift-overlay';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);z-index:99998;display:flex;align-items:center;justify-content:center;';
+    ov.onclick = function (e) { if (e.target === ov) ov.remove(); };
+
+    var html = '<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:20px;padding:24px;max-width:640px;width:94%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">' +
+        '<h3 style="font-size:17px;font-weight:800;"><i class="ph-bold ph-calendar-check" style="margin-right:8px;color:var(--iwin);"></i>Shift Schedule — This Week</h3>' +
+        '<button onclick="document.getElementById(\'shift-overlay\').remove()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted);">&times;</button></div>';
+
+    html += '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">';
+    html += '<tr><th style="text-align:left;padding:8px;color:var(--text-muted);font-size:11px;">OFFICER</th><th style="padding:8px;color:var(--text-muted);font-size:11px;">UNIT</th>';
+    days.forEach(function (d) { html += '<th style="padding:8px;text-align:center;color:var(--text-muted);font-size:11px;">' + d + '</th>'; });
+    html += '</tr>';
+
+    shifts.forEach(function (s) {
+        html += '<tr style="border-top:1px solid var(--border);"><td style="padding:10px 8px;font-weight:600;">' + s.name + '</td><td style="padding:10px 8px;font-size:11px;color:var(--text-muted);font-family:JetBrains Mono,monospace;">' + s.unit + '</td>';
+        s.shifts.forEach(function (on) {
+            html += '<td style="padding:10px 8px;text-align:center;">' + (on ? '<span style="display:inline-block;width:28px;height:28px;line-height:28px;background:rgba(79,70,229,0.15);color:var(--iwin);border-radius:8px;font-size:11px;font-weight:800;">ON</span>' : '<span style="display:inline-block;width:28px;height:28px;line-height:28px;background:var(--bg-panel-alt);color:var(--text-muted);border-radius:8px;font-size:10px;">—</span>') + '</td>';
+        });
+        html += '</tr>';
+    });
+
+    html += '</table></div>';
+    var onCount = 0; shifts.forEach(function (s) { s.shifts.forEach(function (v) { onCount += v; }); });
+    html += '<div style="display:flex;gap:12px;margin-top:16px;">' +
+        '<div style="flex:1;background:var(--bg-panel-alt);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;">Total Shifts</div><div style="font-size:18px;font-weight:900;color:var(--iwin);margin-top:2px;">' + onCount + '</div></div>' +
+        '<div style="flex:1;background:var(--bg-panel-alt);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;">Officers</div><div style="font-size:18px;font-weight:900;color:#10b981;margin-top:2px;">' + shifts.length + '</div></div>' +
+        '<div style="flex:1;background:var(--bg-panel-alt);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;">Coverage</div><div style="font-size:18px;font-weight:900;color:#f59e0b;margin-top:2px;">' + Math.round(onCount / (shifts.length * 7) * 100) + '%</div></div></div>';
+    html += '</div>';
+    ov.innerHTML = html;
+    document.body.appendChild(ov);
+}
+
+// --- Feature E-6: In-App Messaging Panel ---
+function openMessaging() {
+    var existing = document.getElementById('msg-overlay');
+    if (existing) { existing.remove(); return; }
+
+    var messages = [
+        { from: 'Dispatch', time: '14:22', text: 'UNIT-12 requesting backup at Port of LA. Possible armed suspects.', urgent: true },
+        { from: 'Sgt. Martinez', time: '14:18', text: 'Alpha-3 clear from Union Station. Returning to patrol.', urgent: false },
+        { from: 'Cap. Anderson', time: '14:15', text: 'Fire containment at 20%. Requesting additional engine company.', urgent: true },
+        { from: 'ALPR System', time: '14:10', text: 'Stolen vehicle flagged on I-710 NB. Plate: 7ABC123. Auto-dispatched.', urgent: false },
+        { from: 'Off. Chen', time: '14:05', text: 'Traffic collision cleared. Lanes reopening. Tow truck en route.', urgent: false },
+        { from: 'Watch Commander', time: '13:55', text: 'Shift change reminder: 1800h briefing in Sector 3 ready room.', urgent: false }
+    ];
+
+    var ov = document.createElement('div');
+    ov.id = 'msg-overlay';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);z-index:99998;display:flex;align-items:center;justify-content:center;';
+    ov.onclick = function (e) { if (e.target === ov) ov.remove(); };
+
+    var html = '<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:20px;padding:24px;max-width:480px;width:94%;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-height:80vh;display:flex;flex-direction:column;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">' +
+        '<h3 style="font-size:17px;font-weight:800;"><i class="ph-bold ph-chat-circle-dots" style="margin-right:8px;color:var(--iwin);"></i>Messages <span style="font-size:12px;background:var(--iwin);color:white;padding:2px 8px;border-radius:10px;margin-left:8px;">' + messages.length + '</span></h3>' +
+        '<button onclick="document.getElementById(\'msg-overlay\').remove()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted);">&times;</button></div>';
+
+    html += '<div style="flex:1;overflow-y:auto;margin-bottom:12px;">';
+    messages.forEach(function (m) {
+        html += '<div style="padding:12px;border-radius:12px;margin-bottom:8px;background:' + (m.urgent ? 'rgba(239,68,68,0.08)' : 'var(--bg-panel-alt)') + ';border-left:3px solid ' + (m.urgent ? '#ef4444' : 'var(--border)') + ';">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
+            '<span style="font-size:12px;font-weight:800;color:' + (m.urgent ? '#ef4444' : 'var(--iwin)') + ';">' + m.from + (m.urgent ? ' <span style="font-size:9px;background:#ef4444;color:white;padding:1px 6px;border-radius:4px;margin-left:6px;">URGENT</span>' : '') + '</span>' +
+            '<span style="font-size:10px;color:var(--text-muted);">' + m.time + '</span></div>' +
+            '<div style="font-size:13px;line-height:1.5;color:var(--text-secondary);">' + m.text + '</div></div>';
+    });
+    html += '</div>';
+
+    html += '<div style="display:flex;gap:8px;"><input id="msg-input" type="text" placeholder="Type a message…" style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel-alt);color:var(--text-primary);font-size:13px;font-family:Inter,sans-serif;outline:none;">' +
+        '<button onclick="var inp=document.getElementById(\'msg-input\');if(inp.value.trim()){alert(\'Message sent: \'+inp.value);inp.value=\'\';}" style="padding:10px 16px;background:var(--iwin);color:white;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:13px;"><i class="ph-bold ph-paper-plane-tilt"></i></button></div>';
+    html += '</div>';
+    ov.innerHTML = html;
+    document.body.appendChild(ov);
+}
+
+// --- Feature E-7: Voice Commands ---
+function initVoiceCommands() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) return;
+
+    var nav = document.querySelector('.nav-actions');
+    if (!nav) return;
+    var btn = document.createElement('button');
+    btn.className = 'nav-btn';
+    btn.id = 'voice-btn';
+    btn.title = 'Voice Commands';
+    btn.innerHTML = '<i class="ph-bold ph-microphone"></i>';
+    btn.style.cssText = 'transition:all 0.3s;';
+
+    var listening = false;
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.lang = 'en-US';
+
+    recognition.onresult = function (event) {
+        var text = event.results[0][0].transcript.toLowerCase();
+        btn.style.color = '';
+        listening = false;
+
+        if (text.indexOf('search') > -1) toggleSearchOverlay();
+        else if (text.indexOf('profile') > -1) openUserProfile();
+        else if (text.indexOf('weather') > -1) document.querySelector('#weather-panel') ? null : document.querySelector('[title="Weather Conditions"]').click();
+        else if (text.indexOf('schedule') > -1 || text.indexOf('shift') > -1) openShiftScheduler();
+        else if (text.indexOf('message') > -1 || text.indexOf('chat') > -1) openMessaging();
+        else if (text.indexOf('print') > -1) printDashboard();
+        else if (text.indexOf('dark') > -1 || text.indexOf('theme') > -1 || text.indexOf('light') > -1) { if (typeof toggleTheme === 'function') toggleTheme(); }
+        else if (text.indexOf('briefing') > -1) showDailyBriefing();
+        else if (text.indexOf('analytics') > -1) openAdminAnalytics();
+        else alert('Voice command: "' + text + '"\n\nAvailable: search, profile, weather, schedule, messages, print, dark/light, briefing, analytics');
+
+        if (typeof addAuditEntry === 'function') addAuditEntry('Voice command: ' + text);
+    };
+
+    recognition.onend = function () { btn.style.color = ''; listening = false; };
+
+    btn.onclick = function () {
+        if (listening) { recognition.stop(); return; }
+        listening = true;
+        btn.style.color = '#ef4444';
+        recognition.start();
+    };
+    nav.insertBefore(btn, nav.children[2]);
+}
+
+// --- Feature E-8: Loading Skeletons ---
+function showLoadingSkeletons() {
+    var style = document.createElement('style');
+    style.textContent = '@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:200px 0}}' +
+        '.skeleton{background:linear-gradient(90deg,var(--bg-panel-alt) 25%,rgba(255,255,255,0.05) 50%,var(--bg-panel-alt) 75%);background-size:400px 100%;animation:shimmer 1.5s infinite;border-radius:10px;min-height:40px;}' +
+        '.skeleton-text{height:14px;margin:8px 0;border-radius:6px;}.skeleton-circle{width:40px;height:40px;border-radius:50%;}';
+    document.head.appendChild(style);
+}
+
+// --- Feature E-9: Accessibility (WCAG) ---
+function initAccessibility() {
+    // Skip-to-content link
+    var skip = document.createElement('a');
+    skip.href = '#main-content';
+    skip.textContent = 'Skip to main content';
+    skip.style.cssText = 'position:fixed;top:-100px;left:16px;background:var(--iwin);color:white;padding:10px 20px;border-radius:0 0 10px 10px;z-index:999999;font-weight:700;font-size:13px;text-decoration:none;transition:top 0.3s;';
+    skip.onfocus = function () { this.style.top = '0'; };
+    skip.onblur = function () { this.style.top = '-100px'; };
+    document.body.insertBefore(skip, document.body.firstChild);
+
+    // Add aria-labels to buttons without labels
+    document.querySelectorAll('button:not([aria-label])').forEach(function (btn) {
+        var text = btn.textContent.trim() || btn.title || 'Button';
+        btn.setAttribute('aria-label', text);
+    });
+
+    // Focus styles
+    var focusStyle = document.createElement('style');
+    focusStyle.textContent = '*:focus-visible{outline:2px solid var(--iwin);outline-offset:2px;border-radius:4px;}';
+    document.head.appendChild(focusStyle);
+
+    // Announce to screen readers
+    var live = document.createElement('div');
+    live.id = 'sr-announce';
+    live.setAttribute('aria-live', 'polite');
+    live.setAttribute('aria-atomic', 'true');
+    live.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);';
+    document.body.appendChild(live);
+}
+
+function announceToSR(message) {
+    var el = document.getElementById('sr-announce');
+    if (el) el.textContent = message;
+}
+
+// --- Feature E-10: Animated Page Transitions ---
+function initPageTransitions() {
+    var style = document.createElement('style');
+    style.textContent =
+        '.section-gap{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}' +
+        '.section-gap.visible{opacity:1;transform:translateY(0);}' +
+        '.fade-in{animation:fadeSlideIn 0.5s ease forwards;}' +
+        '@keyframes fadeSlideIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}';
+    document.head.appendChild(style);
+
+    // Intersection Observer for scroll animations
+    if ('IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section-gap').forEach(function (el) {
+            obs.observe(el);
+        });
+    } else {
+        document.querySelectorAll('.section-gap').forEach(function (el) {
+            el.classList.add('visible');
+        });
+    }
+}
+
+// --- Feature E-11: Admin Analytics Dashboard ---
+function openAdminAnalytics() {
+    var existing = document.getElementById('analytics-overlay');
+    if (existing) { existing.remove(); return; }
+
+    var months = ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'];
+    var logins = [145, 178, 192, 210, 234, 251];
+    var incidents = [32, 28, 41, 35, 22, 18];
+    var responseMs = [4.2, 3.8, 4.5, 3.2, 3.9, 3.1];
+
+    var ov = document.createElement('div');
+    ov.id = 'analytics-overlay';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(8px);z-index:99998;display:flex;align-items:center;justify-content:center;';
+    ov.onclick = function (e) { if (e.target === ov) ov.remove(); };
+
+    var maxLogin = Math.max.apply(null, logins);
+    var maxInc = Math.max.apply(null, incidents);
+
+    var barsHTML = '';
+    months.forEach(function (m, i) {
+        var h = Math.round(logins[i] / maxLogin * 80);
+        barsHTML += '<div style="text-align:center;flex:1;"><div style="height:80px;display:flex;align-items:flex-end;justify-content:center;"><div style="width:100%;max-width:32px;height:' + h + 'px;background:linear-gradient(180deg,var(--iwin),rgba(79,70,229,0.3));border-radius:6px 6px 0 0;"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px;">' + m + '</div><div style="font-size:11px;font-weight:700;">' + logins[i] + '</div></div>';
+    });
+
+    var incBarsHTML = '';
+    months.forEach(function (m, i) {
+        var h = Math.round(incidents[i] / maxInc * 60);
+        incBarsHTML += '<div style="text-align:center;flex:1;"><div style="height:60px;display:flex;align-items:flex-end;justify-content:center;"><div style="width:100%;max-width:28px;height:' + h + 'px;background:linear-gradient(180deg,#f59e0b,rgba(245,158,11,0.3));border-radius:5px 5px 0 0;"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px;">' + m + '</div></div>';
+    });
+
+    ov.innerHTML = '<div style="background:var(--bg-panel);border:1px solid var(--border);border-radius:20px;padding:24px;max-width:600px;width:94%;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-height:85vh;overflow-y:auto;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">' +
+        '<h3 style="font-size:17px;font-weight:800;"><i class="ph-bold ph-chart-bar" style="margin-right:8px;color:var(--iwin);"></i>Admin Analytics</h3>' +
+        '<button onclick="document.getElementById(\'analytics-overlay\').remove()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted);">&times;</button></div>' +
+        '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">' +
+        '<div style="background:var(--bg-panel-alt);padding:12px;border-radius:12px;text-align:center;"><div style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;">Total Logins</div><div style="font-size:22px;font-weight:900;color:var(--iwin);margin-top:4px;">1,210</div></div>' +
+        '<div style="background:var(--bg-panel-alt);padding:12px;border-radius:12px;text-align:center;"><div style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;">Incidents</div><div style="font-size:22px;font-weight:900;color:#f59e0b;margin-top:4px;">176</div></div>' +
+        '<div style="background:var(--bg-panel-alt);padding:12px;border-radius:12px;text-align:center;"><div style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;">Avg Response</div><div style="font-size:22px;font-weight:900;color:#10b981;margin-top:4px;">3.8m</div></div>' +
+        '<div style="background:var(--bg-panel-alt);padding:12px;border-radius:12px;text-align:center;"><div style="font-size:9px;font-weight:800;color:var(--text-muted);text-transform:uppercase;">Uptime</div><div style="font-size:22px;font-weight:900;color:#0d9488;margin-top:4px;">99.97%</div></div></div>' +
+        '<div style="margin-bottom:20px;"><div style="font-size:11px;font-weight:800;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">User Logins (6-month)</div><div style="display:flex;gap:4px;align-items:flex-end;">' + barsHTML + '</div></div>' +
+        '<div><div style="font-size:11px;font-weight:800;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px;">Incidents by Month</div><div style="display:flex;gap:4px;align-items:flex-end;">' + incBarsHTML + '</div></div>' +
+        '</div>';
+    document.body.appendChild(ov);
+}
+
+// --- Feature E-12: Drag-and-Drop Dashboard ---
+function initDragDrop() {
+    var sections = document.querySelectorAll('.section-gap');
+    sections.forEach(function (sec) {
+        sec.setAttribute('draggable', 'true');
+        sec.style.cursor = 'grab';
+
+        sec.addEventListener('dragstart', function (e) {
+            e.dataTransfer.effectAllowed = 'move';
+            this.style.opacity = '0.4';
+            window._dragSrc = this;
+        });
+        sec.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            this.style.borderTop = '3px solid var(--iwin)';
+        });
+        sec.addEventListener('dragleave', function () {
+            this.style.borderTop = '';
+        });
+        sec.addEventListener('drop', function (e) {
+            e.preventDefault();
+            this.style.borderTop = '';
+            if (window._dragSrc && window._dragSrc !== this) {
+                this.parentNode.insertBefore(window._dragSrc, this);
+            }
+        });
+        sec.addEventListener('dragend', function () {
+            this.style.opacity = '1';
+            document.querySelectorAll('.section-gap').forEach(function (s) { s.style.borderTop = ''; });
+        });
+    });
+}
+
+// --- Feature E-13: 3D Map Visualization Toggle ---
+function init3DMapToggle() {
+    if (!state.map) return;
+
+    var mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+
+    var btn = document.createElement('button');
+    btn.style.cssText = 'position:absolute;top:10px;right:10px;z-index:1000;background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:11px;font-weight:800;font-family:Inter,sans-serif;color:var(--text-primary);box-shadow:0 4px 12px rgba(0,0,0,0.2);display:flex;align-items:center;gap:6px;';
+    btn.innerHTML = '<i class="ph-bold ph-cube"></i>3D View';
+    btn.title = 'Toggle 3D perspective';
+    var is3D = false;
+    btn.onclick = function () {
+        is3D = !is3D;
+        if (is3D) {
+            mapContainer.style.transition = 'transform 0.8s ease';
+            mapContainer.style.transform = 'perspective(1200px) rotateX(45deg) scale(0.85)';
+            mapContainer.style.transformOrigin = 'center center';
+            btn.innerHTML = '<i class="ph-bold ph-map-trifold"></i>2D View';
+        } else {
+            mapContainer.style.transform = 'none';
+            btn.innerHTML = '<i class="ph-bold ph-cube"></i>3D View';
+        }
+    };
+    mapContainer.style.position = 'relative';
+    mapContainer.appendChild(btn);
+}
+
+// --- Feature E-14: Nav Buttons for Schedule, Messages, Analytics ---
+function addNavEnhancements() {
+    var nav = document.querySelector('.nav-actions');
+    if (!nav) return;
+
+    // Schedule button
+    var schedBtn = document.createElement('button');
+    schedBtn.className = 'nav-btn';
+    schedBtn.title = 'Shift Schedule';
+    schedBtn.innerHTML = '<i class="ph-bold ph-calendar-check"></i>';
+    schedBtn.onclick = function () { openShiftScheduler(); };
+
+    // Messages button
+    var msgBtn = document.createElement('button');
+    msgBtn.className = 'nav-btn';
+    msgBtn.title = 'Messages';
+    msgBtn.innerHTML = '<i class="ph-bold ph-chat-circle-dots"></i>';
+    msgBtn.style.position = 'relative';
+    msgBtn.onclick = function () { openMessaging(); };
+    var badge = document.createElement('span');
+    badge.style.cssText = 'position:absolute;top:-2px;right:-2px;width:16px;height:16px;background:#ef4444;color:white;font-size:9px;font-weight:900;border-radius:50%;display:flex;align-items:center;justify-content:center;';
+    badge.textContent = '3';
+    msgBtn.appendChild(badge);
+
+    // Analytics button
+    var anlBtn = document.createElement('button');
+    anlBtn.className = 'nav-btn';
+    anlBtn.title = 'Admin Analytics';
+    anlBtn.innerHTML = '<i class="ph-bold ph-chart-bar"></i>';
+    anlBtn.onclick = function () { openAdminAnalytics(); };
+
+    // API Docs link
+    var apiBtn = document.createElement('button');
+    apiBtn.className = 'nav-btn';
+    apiBtn.title = 'API Documentation';
+    apiBtn.innerHTML = '<i class="ph-bold ph-code"></i>';
+    apiBtn.onclick = function () { window.open('api-docs.html', '_blank'); };
+
+    nav.insertBefore(apiBtn, nav.children[nav.children.length - 1]);
+    nav.insertBefore(anlBtn, apiBtn);
+    nav.insertBefore(msgBtn, anlBtn);
+    nav.insertBefore(schedBtn, msgBtn);
+}
+
+// ============ LOGIN WRAPPER v5 — Initialize All Enhancement Features ============
+var _origHandleLoginV4 = handleLogin;
+handleLogin = function () {
+    _origHandleLoginV4();
+
+    setTimeout(function () {
+        // Enhancement features
+        initGlobalSearch();
+        initWeatherPanel();
+        initVoiceCommands();
+        addNavEnhancements();
+        initPageTransitions();
+        initDragDrop();
+        init3DMapToggle();
+        showLoadingSkeletons();
+        initAccessibility();
+    }, 1200);
+};

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCS API Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0e1a;
+            --bg2: #111827;
+            --bg3: #1e293b;
+            --border: #334155;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --accent: #4f46e5;
+            --green: #10b981;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --blue: #3b82f6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        h1 span {
+            color: var(--accent);
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .base-url {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        .base-url span {
+            color: var(--muted);
+            font-size: 11px;
+            display: block;
+            margin-bottom: 4px;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .endpoint {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .endpoint:hover {
+            border-color: var(--accent);
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .method {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            min-width: 56px;
+            text-align: center;
+        }
+
+        .method.get {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--green);
+        }
+
+        .method.post {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--blue);
+        }
+
+        .method.delete {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--red);
+        }
+
+        .path {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .desc {
+            color: var(--muted);
+            font-size: 13px;
+            margin-left: auto;
+        }
+
+        .endpoint-body {
+            display: none;
+            padding: 0 20px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .endpoint.open .endpoint-body {
+            display: block;
+        }
+
+        .endpoint.open .endpoint-header {
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin: 16px 0 8px;
+        }
+
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .params-table th {
+            text-align: left;
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .params-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+        }
+
+        .params-table td:first-child {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .type-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .response-block {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 8px;
+            overflow-x: auto;
+        }
+
+        .response-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            line-height: 1.8;
+            color: var(--green);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .status-card {
+            background: var(--bg3);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .status-card .code {
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .status-card .label {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .s200 {
+            color: var(--green);
+        }
+
+        .s201 {
+            color: var(--blue);
+        }
+
+        .s400 {
+            color: var(--amber);
+        }
+
+        .s404 {
+            color: var(--red);
+        }
+
+        .s405 {
+            color: var(--red);
+        }
+
+        .auth-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--amber);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-left: 12px;
+        }
+
+        @media(max-width:640px) {
+            .endpoint-header {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .desc {
+                margin-left: 0;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="SMART%20Program%20Campus%20Safety%20Optimization.html" class="back-link">← Back to Dashboard</a>
+        <h1>SCS <span>API</span> Documentation</h1>
+        <p class="subtitle">SoCal-SMART Command System — REST API v2.0 &nbsp;|&nbsp; 8 Endpoints &nbsp;|&nbsp; JSON
+            Responses</p>
+
+        <div class="base-url">
+            <span>Base URL</span>
+            http://localhost:5000
+        </div>
+
+        <h3
+            style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px;">
+            Status Codes</h3>
+        <div class="status-grid">
+            <div class="status-card">
+                <div class="code s200">200</div>
+                <div class="label">OK</div>
+            </div>
+            <div class="status-card">
+                <div class="code s201">201</div>
+                <div class="label">Created</div>
+            </div>
+            <div class="status-card">
+                <div class="code s400">400</div>
+                <div class="label">Bad Request</div>
+            </div>
+            <div class="status-card">
+                <div class="code s404">404</div>
+                <div class="label">Not Found</div>
+            </div>
+            <div class="status-card">
+                <div class="code s405">405</div>
+                <div class="label">Method N/A</div>
+            </div>
+        </div>
+
+        <h3
+            style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:32px 0 16px;">
+            Endpoints</h3>
+
+        <!-- Health -->
+        <div class="endpoint" onclick="this.classList.toggle('open')">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/api/health</span>
+                <span class="desc">Health check & service status</span>
+            </div>
+            <div class="endpoint-body">
+                <div class="section-label">Response (200)</div>
+                <div class="response-block">
+                    <pre>{
+  "status": "healthy",
+  "version": "2.0.0",
+  "database": "connected",
+  "uptime": "99.97%",
+  "timestamp": "2026-02-19T14:30:00",
+  "services": {
+    "database": "connected",
+    "cache": "active",
+    "websocket": "running"
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- GET Incidents -->
+        <div class="endpoint" onclick="this.classList.toggle('open')">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/api/incidents</span>
+                <span class="desc">List incidents (filterable)</span>
+            </div>
+            <div class="endpoint-body">
+                <div class="section-label">Query Parameters</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>status</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Filter: Active, Responding, Cleared, Closed</td>
+                    </tr>
+                    <tr>
+                        <td>severity</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Filter: Low, Medium, High, Critical</td>
+                    </tr>
+                    <tr>
+                        <td>region</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Filter: Los Angeles, Orange County, Inland Empire, San Diego</td>
+                    </tr>
+                </table>
+                <div class="section-label" style="margin-top:16px;">Response (200)</div>
+                <div class="response-block">
+                    <pre>{
+  "count": 4,
+  "incidents": [
+    {
+      "id": 1,
+      "title": "Cargo Theft — Port of LA",
+      "type": "Theft",
+      "severity": "High",
+      "status": "Active",
+      "location": { "lat": 33.7405, "lng": -118.2723 },
+      "region": "Los Angeles",
+      "timestamp": "2026-02-19T12:30:00"
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST Incidents -->
+        <div class="endpoint" onclick="this.classList.toggle('open')">
+            <div class="endpoint-header">
+                <span class="method post">POST</span>
+                <span class="path">/api/incidents</span>
+                <span class="desc">Create new incident</span>
+            </div>
+            <div class="endpoint-body">
+                <div class="section-label">Request Body (JSON)</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td><strong>Required</strong> — Incident title</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td><strong>Required</strong> — Theft, Traffic, Fire, etc.</td>
+                    </tr>
+                    <tr>
+                        <td>severity</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td><strong>Required</strong> — Low, Medium, High, Critical</td>
+                    </tr>
+                    <tr>
+                        <td>location</td>
+                        <td><span class="type-badge">object</span></td>
+                        <td>{lat, lng} — defaults to LA center</td>
+                    </tr>
+                    <tr>
+                        <td>assignedUnit</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Unit ID (e.g. UNIT-12)</td>
+                    </tr>
+                </table>
+                <div class="section-label" style="margin-top:16px;">Response (201)</div>
+                <div class="response-block">
+                    <pre>{
+  "message": "Incident created",
+  "incident": { ... }
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- GET Units -->
+        <div class="endpoint" onclick="this.classList.toggle('open')">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/api/units</span>
+                <span class="desc">List active units</span>
+            </div>
+            <div class="endpoint-body">
+                <div class="section-label">Query Parameters</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>region</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Filter by region</td>
+                    </tr>
+                    <tr>
+                        <td>status</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Filter: Available, Dispatched, On Scene, Standby</td>
+                    </tr>
+                </table>
+                <div class="section-label" style="margin-top:16px;">Response (200)</div>
+                <div class="response-block">
+                    <pre>{
+  "count": 8,
+  "units": [
+    {
+      "id": "UNIT-03",
+      "callsign": "Alpha-3",
+      "type": "Patrol",
+      "status": "Available",
+      "region": "Los Angeles",
+      "lat": 34.0522,
+      "lng": -118.2437
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- GET Stats -->
+        <div class="endpoint" onclick="this.classList.toggle('open')">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/api/stats</span>
+                <span class="desc">Dashboard KPI statistics</span>
+            </div>
+            <div class="endpoint-body">
+                <div class="section-label">Response (200)</div>
+                <div class="response-block">
+                    <pre>{
+  "totalIncidents": 4,
+  "activeIncidents": 2,
+  "totalUnits": 8,
+  "availableUnits": 4,
+  "avgResponseTime": "4.7 min",
+  "systemUptime": "99.97%",
+  "apiLatency": "24ms",
+  "encryptionStatus": "AES-256 / TLS 1.3 Active",
+  "threatLevel": "Elevated",
+  "regionsOnline": 4,
+  "databaseBackend": "MySQL 8.0"
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- GET Audit -->
+        <div class="endpoint" onclick="this.classList.toggle('open')">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/api/audit</span>
+                <span class="desc">Audit log entries</span>
+            </div>
+            <div class="endpoint-body">
+                <div class="section-label">Query Parameters</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>limit</td>
+                        <td><span class="type-badge">int</span></td>
+                        <td>Max entries (default 50)</td>
+                    </tr>
+                </table>
+                <div class="section-label" style="margin-top:16px;">Response (200)</div>
+                <div class="response-block">
+                    <pre>{
+  "count": 12,
+  "entries": [
+    {
+      "id": 1,
+      "action": "User login",
+      "user_name": "System Administrator",
+      "ip_address": "10.0.1.100",
+      "created_at": "2026-02-19T14:30:00"
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST Audit -->
+        <div class="endpoint" onclick="this.classList.toggle('open')">
+            <div class="endpoint-header">
+                <span class="method post">POST</span>
+                <span class="path">/api/audit</span>
+                <span class="desc">Create audit entry</span>
+            </div>
+            <div class="endpoint-body">
+                <div class="section-label">Request Body (JSON)</div>
+                <table class="params-table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>action</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td><strong>Required</strong> — Action description</td>
+                    </tr>
+                    <tr>
+                        <td>user_id</td>
+                        <td><span class="type-badge">int</span></td>
+                        <td>User ID</td>
+                    </tr>
+                    <tr>
+                        <td>details</td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Additional details</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- GET Geofences -->
+        <div class="endpoint" onclick="this.classList.toggle('open')">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/api/geofences</span>
+                <span class="desc">List geofence zones</span>
+            </div>
+            <div class="endpoint-body">
+                <div class="section-label">Response (200)</div>
+                <div class="response-block">
+                    <pre>{
+  "count": 5,
+  "geofences": [
+    {
+      "id": 1,
+      "name": "Port of Los Angeles",
+      "region": "Los Angeles",
+      "lat": 33.7405,
+      "lng": -118.2723,
+      "radius": 2000,
+      "alert_level": "High"
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:48px;color:var(--muted);font-size:12px;">
+            SoCal-SMART Command System &copy; 2026 &nbsp;|&nbsp; API v2.0 &nbsp;|&nbsp; AES-256 Encrypted
+        </div>
+    </div>
+</body>
+
+</html>

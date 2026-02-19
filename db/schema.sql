@@ -9,6 +9,15 @@ CREATE DATABASE IF NOT EXISTS scs_command
 
 USE scs_command;
 
+-- Drop tables in reverse dependency order (children before parents)
+DROP TABLE IF EXISTS sensor_data;
+DROP TABLE IF EXISTS geofence_zones;
+DROP TABLE IF EXISTS audit_log;
+DROP TABLE IF EXISTS incidents;
+DROP TABLE IF EXISTS units;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS users;
+
 -- ─── Users & Auth ────────────────────────────────────
 
 CREATE TABLE users (
