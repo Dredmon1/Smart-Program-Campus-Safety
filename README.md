@@ -24,6 +24,33 @@ The SoCal-SMART (Southern California — Security, Monitoring, Analytics & Respo
 - **Dark/Light Theme** — Full theme toggle with adaptive chart colors
 - **Responsive Design** — Mobile-friendly with hamburger navigation
 
+### 🔐 Security Features
+
+- **Two-Factor Authentication (2FA)** — OTP modal enforced for all roles at login
+- **Role-Based Access Control (RBAC)** — UI element visibility and functionality restricted by role (Commander, Analyst, Field Officer, Observer)
+- **Password Strength Meter** — Real-time 4-bar strength indicator (Weak / Fair / Strong / Very Strong) below the password field
+- **Account Lockout** — 3 failed CAPTCHA/login attempts triggers a 60-second lockout with live countdown
+- **Admin Override** — Commanders and IT Administrators can clear lockouts via override code `SCS-OVERRIDE-2026` or the Admin Security Panel
+- **CAPTCHA Simulation** — Math-based CAPTCHA required before login to prevent automated access
+- **Session Fingerprinting** — Browser, OS, screen resolution, language, and timezone logged to the audit trail
+- **Encryption Indicator** — Animated nav bar badge showing AES-256 / TLS 1.3 encryption status
+- **CSP Badge** — Content Security Policy compliance indicator in footer (click for policy details)
+- **Privacy Policy & Terms** — Full privacy modal accessible from login screen and footer
+- **XSS Prevention** — `sanitizeInput()` function strips HTML entities from all incident form submissions
+- **Admin Security Panel** — Commanders and IT Administrators can view/clear lockouts, purge session/local data
+
+### 📊 Operational Features
+
+- **Real-Time Clock** — Live date/time display in the navigation bar
+- **Daily Briefing Modal** — Randomized morning intel briefing with threat level, active units, and key items
+- **User Profile Modal** — Session details, role info, fingerprint data, and admin panel access
+- **Data Persistence** — Audit log and incident data saved to `localStorage` and restored on reload
+- **Print-Friendly Dashboard** — CSS print stylesheet for clean printouts; "Print Dashboard" button in footer
+- **Heatmap Legend & Time Filtering** — Color-graded legend with time-range selection
+- **Trend Forecasting** — 6-month incident forecast using linear regression
+- **Session Timer & Auto-Logout** — Configurable session timeout with visual countdown
+- **Real-time WebSocket Simulation** — Streaming event feed with random incident generation
+
 ---
 
 ## 🛠️ Tech Stack
@@ -71,6 +98,11 @@ IST4910/
 3. **Login:**
    - Select a role (Command, Analyst, or Field Officer)
    - Click **"Access Command Deck"** to enter the dashboard
+
+4. **Run via Local Server (Recommended):**
+   - We've included a script to avoid browser security restrictions (CORS) with local files.
+   - Run `python run_dashboard.py` in your terminal.
+   - The dashboard will open automatically at `http://localhost:8000`.
 
 ---
 

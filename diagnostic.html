@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard Diagnostic</title>
+</head>
+
+<body style="font-family:monospace;padding:20px;background:#111;color:#0f0;">
+    <h2>SoCal-SMART Diagnostic Tool</h2>
+    <div id="output" style="white-space:pre-wrap;"></div>
+    <script>
+        var out = document.getElementById('output');
+        function log(msg, color) {
+            var d = document.createElement('div');
+            d.style.color = color || '#0f0';
+            d.textContent = msg;
+            out.appendChild(d);
+        }
+
+        log('=== DIAGNOSTIC START ===');
+        log('Browser: ' + navigator.userAgent);
+        log('');
+
+        // Test 1: Can we fetch smart-app.js?
+        log('1. Fetching smart-app.js...');
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'smart-app.js?t=' + Date.now(), false); // synchronous
+        try {
+            xhr.send();
+            if (xhr.status === 200) {
+                log('   OK: File loaded (' + xhr.responseText.length + ' chars)', '#0f0');
+                var js = xhr.responseText;
+
+                // Test 2: Does it parse?
+                log('');
+                log('2. Parsing JavaScript...');
+                try {
+                    new Function(js);
+                    log('   OK: No parse errors!', '#0f0');
+                } catch (e) {
+                    log('   PARSE ERROR: ' + e.message, '#f00');
+                    log('   This is why the site is broken!', '#f00');
+                    // Try to find the error location
+                    var lines = js.split('\n');
+                    var match = e.message.match(/line (\d+)/i);
+                    if (match) {
+                        var lineNum = parseInt(match[1]);
+                        log('   Error near line ' + lineNum + ':', '#ff0');
+                        for (var i = Math.max(0, lineNum - 3); i < Math.min(lines.length, lineNum + 3); i++) {
+                            log('   ' + (i + 1) + ': ' + lines[i], i + 1 === lineNum ? '#f00' : '#ff0');
+                        }
+                    }
+                }
+
+                // Test 3: Check for specific functions
+                log('');
+                log('3. Checking key functions...');
+                var fns = ['handleLogin', 'scrollToSection', 'initMap', 'initCharts', 'openPillarModal',
+                    'openBundleModal', 'openCart', 'addToCart', 'toggleTheme', 'runSimulation',
+                    'logFeed', 'closeModal', 'toggleLayer', 'panToRegion', 'exportPDF'];
+                for (var i = 0; i < fns.length; i++) {
+                    if (js.indexOf('function ' + fns[i]) !== -1) {
+                        log('   OK: ' + fns[i], '#0f0');
+                    } else {
+                        log('   MISSING: ' + fns[i], '#f00');
+                    }
+                }
+
+            } else {
+                log('   FAILED: HTTP ' + xhr.status, '#f00');
+            }
+        } catch (e) {
+            log('   FETCH ERROR: ' + e.message, '#f00');
+        }
+
+        // Test 4: Try loading it as a script
+        log('');
+        log('4. Loading as script tag...');
+        var s = document.createElement('script');
+        s.src = 'smart-app.js?t=' + Date.now();
+        s.onload = function () {
+            log('   OK: Script loaded', '#0f0');
+
+            // Test 5: Check if functions are available
+            log('');
+            log('5. Checking global functions after load...');
+            var globalFns = ['handleLogin', 'scrollToSection', 'initMap', 'initCharts', 'openPillarModal',
+                'openBundleModal', 'openCart', 'addToCart', 'toggleTheme', 'runSimulation',
+                'logFeed', 'closeModal', 'toggleLayer', 'panToRegion', 'exportPDF'];
+            for (var i = 0; i < globalFns.length; i++) {
+                if (typeof window[globalFns[i]] === 'function') {
+                    log('   OK: window.' + globalFns[i] + ' exists', '#0f0');
+                } else {
+                    log('   MISSING: window.' + globalFns[i] + ' is ' + typeof window[globalFns[i]], '#f00');
+                }
+            }
+
+            // Test 6: Check DOM elements
+            log('');
+            log('6. Checking DOM elements...');
+            var ids = ['loading-screen', 'login-screen', 'modal-overlay', 'tactical-map',
+                'radarChart', 'latencyChart', 'barChart', 'doughnutChart', 'intel-feed',
+                'cart-count', 'role-badge', 'theme-icon'];
+            for (var i = 0; i < ids.length; i++) {
+                var el = document.getElementById(ids[i]);
+                log('   ' + (el ? 'OK' : 'MISSING') + ': #' + ids[i], el ? '#0f0' : '#f00');
+            }
+
+            log('');
+            log('=== DIAGNOSTIC COMPLETE ===', '#ff0');
+            log('Copy-paste everything above and share it.', '#ff0');
+        };
+        s.onerror = function (e) {
+            log('   SCRIPT LOAD ERROR! The browser could not load smart-app.js', '#f00');
+            log('   This means the file has a syntax error or cannot be found.', '#f00');
+            log('');
+            log('=== DIAGNOSTIC COMPLETE ===', '#ff0');
+        };
+        document.body.appendChild(s);
+    </script>
+</body>
+
+</html>

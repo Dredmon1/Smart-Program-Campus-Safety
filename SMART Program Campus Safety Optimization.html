@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoCal-SMART | Unified Command & Ecosystem</title>
+    <title>SCS (SoCal-SMART) | Unified Command &amp; Ecosystem</title>
     <meta name="description"
-        content="SoCal-SMART Unified Command Ecosystem — Real-time safety coordination across Los Angeles, Inland Empire, and San Diego.">
+        content="SCS — SoCal-SMART Unified Command Ecosystem. Real-time safety coordination across Los Angeles, Orange County, Inland Empire, and San Diego.">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,9 @@
 
 <body>
 
+    <!-- Skip to Content (Accessibility) -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
     <!-- ======== LOADING SCREEN ======== -->
     <div id="loading-screen" role="alert" aria-live="polite">
         <div class="loader-logo"><i class="ph-bold ph-globe-hemisphere-west"></i></div>
@@ -52,21 +55,82 @@
     <!-- ======== LOGIN SCREEN ======== -->
     <div id="login-screen" class="hidden" role="dialog" aria-label="Login">
         <div class="login-card">
-            <div style="margin-bottom:20px;">
+            <div style="margin-bottom:16px;">
+                <div
+                    style="background:linear-gradient(135deg,#dc2626,#991b1b);color:white;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:8px;display:inline-block;margin-bottom:14px;">
+                    &#128274; Authorized Personnel Only</div>
                 <div
                     style="width:56px;height:56px;background:linear-gradient(135deg,#4f46e5,#0d9488);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
-                    <i class="ph-bold ph-globe-hemisphere-west" style="font-size:24px;color:white;"></i>
+                    <i class="ph-bold ph-shield-checkered" style="font-size:24px;color:white;"></i>
                 </div>
             </div>
-            <h2>Command Access</h2>
-            <p>Authenticate to SoCal-SMART Unified Ecosystem</p>
-            <input type="text" id="login-name" placeholder="Operator Name" aria-label="Operator name">
+            <h2>Secure Command Access</h2>
+            <p>Authenticate to SCS (SoCal-SMART) Unified Ecosystem &bull; All sessions monitored &amp; logged</p>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <input type="text" id="login-fname" placeholder="First Name" aria-label="First name" required>
+                <input type="text" id="login-lname" placeholder="Last Name" aria-label="Last name" required>
+            </div>
+            <input type="email" id="login-email" placeholder="Agency Email Address" aria-label="Email address" required>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <input type="text" id="login-badge" placeholder="Badge / ID Number" aria-label="Badge or ID number"
+                    required>
+                <select id="login-agency" aria-label="Select agency">
+                    <option value="" disabled selected>Agency / Dept</option>
+                    <option value="LAPD">LAPD</option>
+                    <option value="LASD">LA County Sheriff</option>
+                    <option value="CHP">California Highway Patrol</option>
+                    <option value="OCSD">OC Sheriff</option>
+                    <option value="SDPD">San Diego PD</option>
+                    <option value="SBCSD">San Bernardino Sheriff</option>
+                    <option value="RPD">Riverside PD</option>
+                    <option value="LBPD">Long Beach PD</option>
+                    <option value="Port-SEC">Port Authority Security</option>
+                    <option value="Campus-PD">Campus Police</option>
+                    <option value="Fed-DHS">DHS / Federal</option>
+                    <option value="SMART-INT">SMART Internal</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
             <select id="login-role" aria-label="Select role">
-                <option value="Commander">Commander</option>
-                <option value="Analyst">Analyst</option>
-                <option value="Field Officer">Field Officer</option>
+                <option value="" disabled selected>Access Level / Role</option>
+                <option value="Commander">Commander &mdash; Full Access</option>
+                <option value="Watch Commander">Watch Commander &mdash; Tactical Ops</option>
+                <option value="Analyst">Intelligence Analyst &mdash; Read + Analytics</option>
+                <option value="Field Officer">Field Officer &mdash; Mobile Ops</option>
+                <option value="Dispatch">Dispatch Operator &mdash; Comms</option>
+                <option value="IT Administrator">IT Administrator &mdash; System Config</option>
+                <option value="Observer">Observer &mdash; Read Only</option>
             </select>
-            <button class="login-btn" onclick="handleLogin()">Access Command Deck</button>
+            <div style="position:relative;">
+                <input type="password" id="login-password" placeholder="Passphrase" aria-label="Password" required>
+                <button type="button" onclick="togglePasswordVisibility()"
+                    style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:0;"
+                    aria-label="Toggle password visibility"><i id="pw-toggle-icon" class="ph-bold ph-eye"></i></button>
+            </div>
+
+            <div style="display:flex;align-items:flex-start;gap:10px;margin:8px 0 4px;text-align:left;">
+                <input type="checkbox" id="login-ack"
+                    style="margin-top:3px;width:auto;accent-color:#4f46e5;flex-shrink:0;">
+                <label for="login-ack" style="font-size:11px;color:var(--text-muted);line-height:1.4;cursor:pointer;">I
+                    acknowledge this is a <strong>restricted government/law enforcement system</strong>. Unauthorized
+                    access is a violation of federal and state law. All activity is monitored, recorded, and subject to
+                    audit.</label>
+            </div>
+
+            <button class="login-btn" onclick="handleLogin()"><i class="ph-bold ph-sign-in"
+                    style="margin-right:6px;"></i>Authenticate &amp; Enter</button>
+
+            <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);">
+                <div style="font-size:10px;color:var(--text-muted);line-height:1.5;">
+                    <i class="ph-bold ph-lock" style="margin-right:4px;"></i>256-bit AES encrypted session &bull; SOC 2
+                    Type II compliant<br>
+                    Session timeout: 30 min &bull; IP logged &bull; MFA enforced for all access<br>
+                    <a href="javascript:void(0)" onclick="showPrivacyPolicy()"
+                        style="color:var(--iwin);text-decoration:underline;cursor:pointer;">Privacy Policy & Terms of
+                        Use</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -88,9 +152,19 @@
             <button onclick="scrollToSection('kpi-section')">Performance</button>
             <button onclick="scrollToSection('charts-section')">Analytics</button>
             <button onclick="panToRegion('la')">LA Metro</button>
+            <button onclick="panToRegion('oc')">Orange County</button>
             <button onclick="panToRegion('ie')">Inland Empire</button>
             <button onclick="panToRegion('sd')">San Diego</button>
         </div>
+    </div>
+
+    <!-- ======== THREAT LEVEL BAR ======== -->
+    <div id="threat-level-bar"
+        style="background:linear-gradient(90deg,#10b981,#10b981);text-align:center;padding:6px 16px;font-size:11px;font-weight:800;color:white;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;"
+        onclick="cycleThreatLevel()" title="Click to change threat level">
+        <span>&#128994;</span>
+        <span id="threat-level-text">THREAT LEVEL: LOW</span>
+        <span style="font-size:9px;font-weight:600;opacity:0.8;">| SoCal Regional Assessment</span>
     </div>
 
     <!-- ======== NAVIGATION ======== -->
@@ -99,8 +173,8 @@
             <div class="nav-brand">
                 <div class="nav-brand-icon"><i class="ph-bold ph-globe-hemisphere-west"></i></div>
                 <div>
-                    <h1>SoCal SMART</h1>
-                    <p>Unified Ecosystem</p>
+                    <h1>SCS</h1>
+                    <p>SoCal-SMART Unified Ecosystem</p>
                 </div>
                 <span id="role-badge" class="nav-badge"></span>
             </div>
@@ -118,8 +192,52 @@
             </div>
 
             <div class="nav-actions">
+                <span id="session-timer"
+                    style="font-size:11px;font-weight:700;color:var(--text-muted);font-family:'JetBrains Mono',monospace;display:none;"
+                    title="Session auto-locks when timer expires">30:00</span>
                 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
                     <i id="theme-icon" class="ph-bold ph-moon"></i>
+                </button>
+                <button class="theme-toggle" onclick="showKeyboardShortcuts()" aria-label="Keyboard shortcuts"
+                    title="Keyboard Shortcuts (?)">
+                    <i class="ph-bold ph-keyboard"></i>
+                </button>
+                <button class="theme-toggle" onclick="openUserProfile()" aria-label="User profile" title="User Profile">
+                    <i class="ph-bold ph-user-circle"></i>
+                </button>
+                <button class="theme-toggle" onclick="openCart()" aria-label="Shopping cart" style="position:relative;">
+                    <i class="ph-bold ph-shopping-cart"></i>
+                    <span id="cart-count"
+                        style="display:none;position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:var(--danger,#ef4444);color:white;font-size:10px;font-weight:800;border-radius:50%;align-items:center;justify-content:center;">0</span>
+                </button>
+                <button onclick="openEmergencyAlert()"
+                    style="background:linear-gradient(135deg,#dc2626,#991b1b);color:white;border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;animation:emergencyPulse 2s infinite;"
+                    aria-label="Emergency Alert">
+                    <i class="ph-bold ph-siren"></i> ALERT
+                </button>
+                <div style="position:relative;">
+                    <button class="theme-toggle" onclick="toggleNotificationCenter()" aria-label="Notifications"
+                        title="Notification Center">
+                        <i class="ph-bold ph-bell"></i>
+                        <span id="notif-badge"
+                            style="display:none;position:absolute;top:-2px;right:-2px;width:16px;height:16px;background:#dc2626;color:white;font-size:9px;font-weight:800;border-radius:50%;display:flex;align-items:center;justify-content:center;">0</span>
+                    </button>
+                    <div id="notif-dropdown"
+                        style="display:none;position:absolute;right:0;top:100%;margin-top:8px;width:340px;max-height:400px;overflow-y:auto;background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,0.2);z-index:9999;padding:12px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                            <span style="font-size:14px;font-weight:800;">Notifications</span>
+                            <button onclick="clearNotifications()"
+                                style="font-size:10px;background:none;border:none;color:var(--text-muted);cursor:pointer;text-decoration:underline;">Clear
+                                All</button>
+                        </div>
+                        <div id="notif-list" style="font-size:12px;">
+                            <div style="color:var(--text-muted);text-align:center;padding:20px;">No notifications</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="theme-toggle" onclick="toggleLanguage()" aria-label="Toggle language"
+                    title="Toggle EN/ES">
+                    <span id="lang-toggle-text" style="font-size:11px;font-weight:800;">EN</span>
                 </button>
                 <button class="nav-cta" onclick="scrollToSection('tactical-hub')">Open Command Deck</button>
                 <button class="hamburger" onclick="openMobileNav()" aria-label="Open menu">
@@ -130,12 +248,14 @@
     </nav>
 
     <!-- ======== MAIN CONTENT ======== -->
-    <main class="main-content">
+    <main id="main-content" class="main-content">
 
         <!-- HERO -->
         <header class="hero section-gap">
             <h2>One Region. <span class="gradient-text">Zero Latency.</span></h2>
-            <p>The SoCal-SMART Program integrates Los Angeles, the Inland Empire, and San Diego into a single
+            <p>The SCS (SoCal-SMART) Program integrates Los Angeles, Orange County, the Inland Empire, and San Diego
+                into a
+                single
                 intelligent safety net. By combining private sector sensors, public safety response, and predictive
                 data, we deliver <strong>Information When It's Needed (IWIN)</strong> across jurisdictional boundaries.
             </p>
@@ -216,70 +336,136 @@
         </section>
 
         <!-- BUNDLE DEALS -->
-        <section class="section-gap" aria-label="Bundle packages">
+        <section class="section-gap" aria-label="Bundle deals">
             <div class="section-header">
                 <i class="ph-duotone ph-gift"></i>
-                <h3>Multi-Product Bundles — Save up to 35%</h3>
+                <h3>Bundle Deals — Save Up to 35%</h3>
             </div>
             <div class="pillar-grid">
-
-                <!-- Bundle 1: Regional Starter -->
                 <div class="pillar-card shield" onclick="openBundleModal('starter')" tabindex="0" role="button"
-                    aria-label="View Regional Starter bundle">
+                    aria-label="View Regional Starter Bundle">
                     <div class="pillar-top">
-                        <div class="pillar-icon shield-icon"><i class="ph-fill ph-star"></i></div>
-                        <span class="pillar-badge">Save 15%</span>
+                        <div class="pillar-icon shield-icon"><i class="ph-fill ph-gift"></i></div>
+                        <span class="pillar-badge">Save $115/mo</span>
                     </div>
                     <h4>Regional Starter</h4>
-                    <p style="margin-bottom:12px;">Shield + IWIN combined for agencies starting their digital
-                        transformation. Ideal for single-county deployments.</p>
-                    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;">
-                        <span style="font-size:28px;font-weight:900;color:var(--shield);">$499</span>
-                        <span style="font-size:12px;color:var(--text-muted);">/month base</span>
-                    </div>
-                    <span style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">$588/mo
-                        separately</span>
+                    <p>Shield + IWIN at 15% off. The perfect entry point for agencies beginning their digital safety
+                        transformation.</p>
+                    <div style="margin-top:12px;font-size:22px;font-weight:900;color:var(--shield);">$649<span
+                            style="font-size:12px;font-weight:400;color:var(--text-muted);">/mo base</span></div>
                 </div>
-
-                <!-- Bundle 2: Full Spectrum -->
                 <div class="pillar-card iwin" onclick="openBundleModal('spectrum')" tabindex="0" role="button"
-                    aria-label="View Full Spectrum bundle" style="position:relative;overflow:visible;">
-                    <div
-                        style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#4f46e5,#0d9488);color:white;font-size:10px;font-weight:800;padding:5px 16px;border-radius:8px;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;">
-                        Most Popular</div>
+                    aria-label="View Full Spectrum Bundle">
                     <div class="pillar-top">
-                        <div class="pillar-icon iwin-icon"><i class="ph-fill ph-crown"></i></div>
-                        <span class="pillar-badge">Save 25%</span>
+                        <div class="pillar-icon iwin-icon"><i class="ph-fill ph-gift"></i></div>
+                        <span class="pillar-badge">Save $400/mo</span>
                     </div>
                     <h4>Full Spectrum</h4>
-                    <p style="margin-bottom:12px;">All 3 products — Shield + IWIN + Horizon API. Complete ecosystem
-                        coverage for multi-county operations.</p>
-                    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;">
-                        <span style="font-size:28px;font-weight:900;color:var(--iwin);">$899</span>
-                        <span style="font-size:12px;color:var(--text-muted);">/month base</span>
-                    </div>
-                    <span style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">$1,198/mo
-                        separately</span>
+                    <p>Shield + IWIN + Horizon at 25% off. Complete ecosystem coverage for multi-county operations.</p>
+                    <div style="margin-top:12px;font-size:22px;font-weight:900;color:var(--iwin);">$1,199<span
+                            style="font-size:12px;font-weight:400;color:var(--text-muted);">/mo base</span></div>
                 </div>
-
-                <!-- Bundle 3: Enterprise Command -->
                 <div class="pillar-card horizon" onclick="openBundleModal('enterprise')" tabindex="0" role="button"
-                    aria-label="View Enterprise Command bundle">
+                    aria-label="View Enterprise Command Bundle">
                     <div class="pillar-top">
-                        <div class="pillar-icon horizon-icon"><i class="ph-fill ph-buildings"></i></div>
-                        <span class="pillar-badge">Save 35%</span>
+                        <div class="pillar-icon horizon-icon"><i class="ph-fill ph-gift"></i></div>
+                        <span class="pillar-badge">Save $1,076/mo</span>
                     </div>
                     <h4>Enterprise Command</h4>
-                    <p style="margin-bottom:12px;">Full Spectrum + dedicated infrastructure, custom AI models, 24/7
-                        premium support, and SLA guarantees.</p>
-                    <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;">
-                        <span style="font-size:28px;font-weight:900;color:var(--horizon);">$1,499</span>
-                        <span style="font-size:12px;color:var(--text-muted);">/month base</span>
-                    </div>
-                    <span style="font-size:11px;color:var(--text-muted);text-decoration:line-through;">$2,306/mo
-                        separately</span>
+                    <p>Full Suite + Premium Services at 35% off. The ultimate package for large-scale deployments.</p>
+                    <div style="margin-top:12px;font-size:22px;font-weight:900;color:var(--horizon);">$1,999<span
+                            style="font-size:12px;font-weight:400;color:var(--text-muted);">/mo base</span></div>
                 </div>
+            </div>
+        </section>
 
+        <!-- HARDWARE PRODUCTS -->
+        <section class="section-gap" aria-label="Hardware products">
+            <div class="section-header">
+                <i class="ph-duotone ph-cpu"></i>
+                <h3>Hardware Products</h3>
+            </div>
+            <div class="pillar-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+                <div class="pillar-card shield" onclick="openHardwareModal('sensorHub')" tabindex="0" role="button"
+                    aria-label="View Shield Sensor Hub">
+                    <div class="pillar-top">
+                        <div class="pillar-icon shield-icon"><i class="ph-fill ph-cpu"></i></div>
+                        <span class="pillar-badge">IoT Gateway</span>
+                    </div>
+                    <h4>Shield Sensor Hub</h4>
+                    <p>Ruggedized IoT gateway aggregating up to 200 field sensors with cellular + satellite backhaul.
+                    </p>
+                    <div style="margin-top:12px;font-size:20px;font-weight:900;color:var(--shield);">From $1,195<span
+                            style="font-size:11px;font-weight:400;color:var(--text-muted);">/unit</span></div>
+                </div>
+                <div class="pillar-card iwin" onclick="openHardwareModal('commandTablet')" tabindex="0" role="button"
+                    aria-label="View IWIN Command Tablet">
+                    <div class="pillar-top">
+                        <div class="pillar-icon iwin-icon"><i class="ph-fill ph-device-tablet"></i></div>
+                        <span class="pillar-badge">Field Device</span>
+                    </div>
+                    <h4>IWIN Command Tablet</h4>
+                    <p>10" MIL-STD-810G ruggedized tablet pre-loaded with IWIN Tactical Suite for field ops.</p>
+                    <div style="margin-top:12px;font-size:20px;font-weight:900;color:var(--iwin);">From $2,395<span
+                            style="font-size:11px;font-weight:400;color:var(--text-muted);">/unit</span></div>
+                </div>
+                <div class="pillar-card horizon" onclick="openHardwareModal('drone')" tabindex="0" role="button"
+                    aria-label="View Horizon Surveillance Drone">
+                    <div class="pillar-top">
+                        <div class="pillar-icon horizon-icon"><i class="ph-fill ph-drone"></i></div>
+                        <span class="pillar-badge">Aerial Platform</span>
+                    </div>
+                    <h4>Surveillance Drone</h4>
+                    <p>AI-powered autonomous drone with 4K thermal/optical cameras and 45-min flight time.</p>
+                    <div style="margin-top:12px;font-size:20px;font-weight:900;color:var(--horizon);">From $6,500<span
+                            style="font-size:11px;font-weight:400;color:var(--text-muted);">/unit</span></div>
+                </div>
+                <div class="pillar-card" onclick="openHardwareModal('gpsTracker')" tabindex="0" role="button"
+                    aria-label="View SMART GPS Tracker" style="border-left:4px solid #e11d48;">
+                    <div class="pillar-top">
+                        <div class="pillar-icon" style="background:rgba(225,29,72,0.1);color:#e11d48;"><i
+                                class="ph-fill ph-map-pin"></i></div>
+                        <span class="pillar-badge">Asset Tracking</span>
+                    </div>
+                    <h4>SMART GPS Tracker</h4>
+                    <p>Compact GPS tracker for vehicles and cargo with 30-day battery and geofence alerts.</p>
+                    <div style="margin-top:12px;font-size:20px;font-weight:900;color:#e11d48;">From $79<span
+                            style="font-size:11px;font-weight:400;color:var(--text-muted);">/unit</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFESSIONAL SERVICES -->
+        <section class="section-gap" aria-label="Professional services">
+            <div class="section-header">
+                <i class="ph-duotone ph-handshake"></i>
+                <h3>Professional Services</h3>
+            </div>
+            <div class="pillar-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <div class="pillar-card iwin" onclick="openServiceModal('consulting')" tabindex="0" role="button"
+                    aria-label="View SMART Consulting">
+                    <div class="pillar-top">
+                        <div class="pillar-icon iwin-icon"><i class="ph-fill ph-chalkboard-teacher"></i></div>
+                        <span class="pillar-badge">Strategy</span>
+                    </div>
+                    <h4>SMART Consulting</h4>
+                    <p>Expert deployment planning, gap analysis, integration architecture, and hands-on staff training
+                        programs.</p>
+                    <div style="margin-top:12px;font-size:20px;font-weight:900;color:#6366f1;">From $8,500<span
+                            style="font-size:11px;font-weight:400;color:var(--text-muted);">/engagement</span></div>
+                </div>
+                <div class="pillar-card horizon" onclick="openServiceModal('maintenance')" tabindex="0" role="button"
+                    aria-label="View SMART Maintenance">
+                    <div class="pillar-top">
+                        <div class="pillar-icon horizon-icon"><i class="ph-fill ph-wrench"></i></div>
+                        <span class="pillar-badge">Support</span>
+                    </div>
+                    <h4>SMART Maintenance</h4>
+                    <p>24/7 technical support, firmware updates, hardware replacement program, and quarterly health
+                        checks.</p>
+                    <div style="margin-top:12px;font-size:20px;font-weight:900;color:#10b981;">From $249<span
+                            style="font-size:11px;font-weight:400;color:var(--text-muted);">/month</span></div>
+                </div>
             </div>
         </section>
 
@@ -288,18 +474,24 @@
             <div class="tactical-toolbar">
                 <div class="toolbar-left">
                     <div class="toolbar-status-dot"></div>
-                    <span class="toolbar-label">Live Operations: Southern California Sector</span>
+                    <span class="toolbar-label">SCS Live Operations: Southern California Sector</span>
                 </div>
                 <div class="toolbar-right">
                     <input type="text" id="feed-search" class="search-input" placeholder="Filter feed..."
                         oninput="filterFeed()" aria-label="Search feed">
                     <button class="toolbar-btn" onclick="panToRegion('la')">LA Metro</button>
+                    <button class="toolbar-btn" onclick="panToRegion('oc')">Orange County</button>
                     <button class="toolbar-btn" onclick="panToRegion('ie')">Inland Empire</button>
                     <button class="toolbar-btn" onclick="panToRegion('sd')">San Diego</button>
                     <div class="toolbar-divider"></div>
-                    <button id="live-mode-btn" class="toolbar-btn" onclick="toggleLiveMode()">▶ Live Mode</button>
                     <button class="toolbar-btn-primary" onclick="runSimulation()">
                         <i class="ph-bold ph-play"></i> Simulate Breach
+                    </button>
+                    <button id="live-mode-btn" class="toolbar-btn" onclick="toggleLiveMode()" style="gap:6px;">
+                        <i class="ph-bold ph-broadcast"></i> <span>&#9654; Live Mode</span>
+                    </button>
+                    <button class="toolbar-btn" onclick="openIncidentReport()" style="gap:6px;color:#f59e0b;">
+                        <i class="ph-bold ph-warning-octagon"></i> Report Incident
                     </button>
                 </div>
             </div>
@@ -353,15 +545,39 @@
                         <div class="legend-item">
                             <div class="legend-dot" style="background:#f97316;"></div>Fire Station
                         </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background:#06b6d4;"></div>Live Patrol
+                        </div>
                     </div>
                     <div class="map-layers">
-                        <button class="layer-btn" data-layer="hospitals" onclick="toggleLayer('hospitals')">🏥
+                        <button class="layer-btn" data-layer="hospitals" onclick="toggleLayer('hospitals')">&#127973;
                             Hospitals</button>
-                        <button class="layer-btn" data-layer="fire" onclick="toggleLayer('fire')">🚒 Fire
+                        <button class="layer-btn" data-layer="fire" onclick="toggleLayer('fire')">&#128658; Fire
                             Stations</button>
-                        <button class="layer-btn" data-layer="heat" onclick="toggleLayer('heat')">🔥 Heatmap</button>
+                        <button class="layer-btn" data-layer="heat" onclick="toggleLayer('heat')">&#128293;
+                            Heatmap</button>
+                        <button class="layer-btn" data-layer="weather" onclick="toggleWeatherLayer()">&#127782;
+                            Weather</button>
+                        <button class="layer-btn" data-layer="traffic" onclick="toggleTrafficLayer()">&#128678;
+                            Traffic</button>
                     </div>
                 </div>
+            </div>
+            <!-- Weather Widget (outside map container to avoid clipping) -->
+            <div id="weather-widget"
+                style="position:fixed;top:80px;right:24px;z-index:1100;background:var(--bg-panel);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:16px;padding:16px 20px;display:none;min-width:240px;max-width:280px;box-shadow:0 12px 40px rgba(0,0,0,0.15);max-height:80vh;overflow-y:auto;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <i class="ph-fill ph-cloud-sun" style="font-size:22px;color:#f59e0b;"></i>
+                        <span
+                            style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);">Weather
+                            Intel</span>
+                    </div>
+                    <button onclick="toggleWeatherLayer()"
+                        style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px;padding:2px;"><i
+                            class="ph-bold ph-x"></i></button>
+                </div>
+                <div id="weather-data" style="font-size:13px;color:var(--text-primary);"></div>
             </div>
         </section>
 
@@ -375,12 +591,10 @@
                     <p class="chart-desc">Each hub utilizes the SMART ecosystem differently based on local geography and
                         industry.</p>
                     <div class="chart-btns">
-                        <button class="chart-btn active"
-                            onclick="updateRadar('la');this.parentNode.querySelector('.active')?.classList.remove('active');this.classList.add('active')">LA</button>
-                        <button class="chart-btn"
-                            onclick="updateRadar('ie');this.parentNode.querySelector('.active')?.classList.remove('active');this.classList.add('active')">IE</button>
-                        <button class="chart-btn"
-                            onclick="updateRadar('sd');this.parentNode.querySelector('.active')?.classList.remove('active');this.classList.add('active')">SD</button>
+                        <button class="chart-btn active" onclick="updateRadar('la')">LA</button>
+                        <button class="chart-btn" onclick="updateRadar('oc')">OC</button>
+                        <button class="chart-btn" onclick="updateRadar('ie')">IE</button>
+                        <button class="chart-btn" onclick="updateRadar('sd')">SD</button>
                     </div>
                     <div class="chart-container"><canvas id="radarChart"></canvas></div>
                 </div>
@@ -428,6 +642,558 @@
                 </div>
             </div>
 
+            <!-- Row 3: Trend Forecast -->
+            <div class="charts-grid section-gap">
+                <div class="chart-panel" style="grid-column: 1 / -1;">
+                    <h3><i class="ph-bold ph-trend-up" style="margin-right:8px;color:var(--horizon);"></i>Incident Trend
+                        Forecast</h3>
+                    <p class="chart-desc">Historical incident data with 6-month linear regression forecast projection.
+                    </p>
+                    <div class="chart-container" style="height:280px;"><canvas id="forecastChart"></canvas></div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ARCHITECTURE DIAGRAM -->
+        <section id="architecture-section" class="section-gap" aria-label="System Architecture">
+            <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+                <h3 style="font-size:20px;font-weight:800;margin-bottom:4px;"><i class="ph-bold ph-tree-structure"
+                        style="margin-right:8px;color:#6366f1;"></i>System Architecture</h3>
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;">How Shield, IWIN, and Horizon
+                    interconnect in the SCS ecosystem.</p>
+                <div class="arch-diagram" onmouseleave="resetArchDiagram()">
+                    <!-- Data Sources -->
+                    <div class="arch-column">
+                        <div class="arch-label">Data Sources</div>
+                        <div class="arch-node arch-source" data-pillar="shield"
+                            onmouseenter="highlightArchNode('shield')">
+                            <i class="ph-fill ph-cpu" style="font-size:20px;color:#f59e0b;"></i>
+                            <div>
+                                <div style="font-weight:700;font-size:12px;">IoT Sensors</div>
+                                <div style="font-size:10px;color:var(--text-muted);">1,402 nodes</div>
+                            </div>
+                        </div>
+                        <div class="arch-node arch-source" data-pillar="iwin" onmouseenter="highlightArchNode('iwin')">
+                            <i class="ph-fill ph-device-tablet" style="font-size:20px;color:#4f46e5;"></i>
+                            <div>
+                                <div style="font-weight:700;font-size:12px;">Field Devices</div>
+                                <div style="font-size:10px;color:var(--text-muted);">Tablets + BWC</div>
+                            </div>
+                        </div>
+                        <div class="arch-node arch-source" data-pillar="horizon"
+                            onmouseenter="highlightArchNode('horizon')">
+                            <i class="ph-fill ph-database" style="font-size:20px;color:#0d9488;"></i>
+                            <div>
+                                <div style="font-weight:700;font-size:12px;">Historical DB</div>
+                                <div style="font-size:10px;color:var(--text-muted);">7yr archive</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Processing -->
+                    <div class="arch-column">
+                        <div class="arch-label">Processing Layer</div>
+                        <div class="arch-node arch-process" data-pillar="shield"
+                            onmouseenter="highlightArchNode('shield')">
+                            <div
+                                style="width:40px;height:40px;border-radius:50%;background:#f59e0b22;display:flex;align-items:center;justify-content:center;">
+                                <i class="ph-fill ph-shield-check" style="font-size:18px;color:#f59e0b;"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight:800;font-size:13px;color:#f59e0b;">Shield</div>
+                                <div style="font-size:10px;color:var(--text-muted);">Geofence Engine</div>
+                            </div>
+                        </div>
+                        <div class="arch-arrow" data-from="shield" data-to="iwin">&#8595; Alert Feed</div>
+                        <div class="arch-node arch-process" data-pillar="iwin" onmouseenter="highlightArchNode('iwin')">
+                            <div
+                                style="width:40px;height:40px;border-radius:50%;background:#4f46e522;display:flex;align-items:center;justify-content:center;">
+                                <i class="ph-fill ph-siren" style="font-size:18px;color:#4f46e5;"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight:800;font-size:13px;color:#4f46e5;">IWIN</div>
+                                <div style="font-size:10px;color:var(--text-muted);">Dispatch Router</div>
+                            </div>
+                        </div>
+                        <div class="arch-arrow" data-from="iwin" data-to="horizon">&#8595; Response Data</div>
+                        <div class="arch-node arch-process" data-pillar="horizon"
+                            onmouseenter="highlightArchNode('horizon')">
+                            <div
+                                style="width:40px;height:40px;border-radius:50%;background:#0d948822;display:flex;align-items:center;justify-content:center;">
+                                <i class="ph-fill ph-chart-polar" style="font-size:18px;color:#0d9488;"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight:800;font-size:13px;color:#0d9488;">Horizon</div>
+                                <div style="font-size:10px;color:var(--text-muted);">AI/ML Engine</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Output -->
+                    <div class="arch-column">
+                        <div class="arch-label">Output</div>
+                        <div class="arch-node arch-output" data-pillar="shield">
+                            <i class="ph-fill ph-bell-ringing" style="font-size:18px;color:#f59e0b;"></i>
+                            <span style="font-size:11px;font-weight:700;">Real-Time Alerts</span>
+                        </div>
+                        <div class="arch-node arch-output" data-pillar="iwin">
+                            <i class="ph-fill ph-map-trifold" style="font-size:18px;color:#4f46e5;"></i>
+                            <span style="font-size:11px;font-weight:700;">Tactical Maps</span>
+                        </div>
+                        <div class="arch-node arch-output" data-pillar="horizon">
+                            <i class="ph-fill ph-chart-line-up" style="font-size:18px;color:#0d9488;"></i>
+                            <span style="font-size:11px;font-weight:700;">Risk Scores</span>
+                        </div>
+                        <div class="arch-node arch-output" data-pillar="horizon">
+                            <i class="ph-fill ph-path" style="font-size:18px;color:#8b5cf6;"></i>
+                            <span style="font-size:11px;font-weight:700;">Safe Path API</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- USE CASE SCENARIO WALKTHROUGHS -->
+        <section id="scenarios-section" class="section-gap" aria-label="Use Case Scenarios">
+            <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+                <h3 style="font-size:20px;font-weight:800;margin-bottom:4px;"><i class="ph-bold ph-presentation-chart"
+                        style="margin-right:8px;color:#4f46e5;"></i>Use Case Walkthroughs</h3>
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">Click a scenario to see how the
+                    ecosystem responds step-by-step.</p>
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div class="scenario-card" onclick="toggleScenario(0)">
+                        <div class="scenario-header">
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <div
+                                    style="width:40px;height:40px;border-radius:12px;background:#f59e0b22;display:flex;align-items:center;justify-content:center;">
+                                    <i class="ph-fill ph-truck" style="font-size:20px;color:#f59e0b;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size:14px;font-weight:800;">Cargo Theft Response</div>
+                                    <div style="font-size:11px;color:var(--text-muted);">Port of LA → Inland Empire
+                                        corridor</div>
+                                </div>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <button onclick="event.stopPropagation();playScenarioAnimation(0)"
+                                    style="background:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;color:var(--iwin);"><i
+                                        class="ph-bold ph-play"></i> Replay</button>
+                                <i class="ph-bold ph-caret-down" style="color:var(--text-muted);font-size:16px;"></i>
+                            </div>
+                        </div>
+                        <div id="scenario-steps-0" class="scenario-steps"
+                            style="max-height:0;opacity:0;overflow:hidden;transition:all 0.4s ease;">
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#f59e0b;min-width:44px;padding-top:2px;">
+                                    T+0s</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#f59e0b;">SHIELD</span>
+                                    <div style="font-size:12px;margin-top:2px;">GPS tracker on container CARGO-7741
+                                        triggers geofence exit alert at Port of LA Terminal B.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#4f46e5;min-width:44px;padding-top:2px;">
+                                    T+12s</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#4f46e5;">IWIN</span>
+                                    <div style="font-size:12px;margin-top:2px;">Alert routed to LAPD Harbor Division.
+                                        Nearest unit P-Alpha dispatched with real-time tracking.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#0d9488;min-width:44px;padding-top:2px;">
+                                    T+18s</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#0d9488;">HORIZON</span>
+                                    <div style="font-size:12px;margin-top:2px;">Predictive model calculates probable
+                                        route: I-710 N → I-10 E toward Inland Empire.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#4f46e5;min-width:44px;padding-top:2px;">
+                                    T+45s</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#4f46e5;">IWIN</span>
+                                    <div style="font-size:12px;margin-top:2px;">CHP units alerted on I-710 corridor.
+                                        Coordinated pursuit handoff initiated.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step" style="display:flex;gap:12px;padding:10px 0;">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#10b981;min-width:44px;padding-top:2px;">
+                                    T+22min</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#10b981;">RESOLVED</span>
+                                    <div style="font-size:12px;margin-top:2px;">Container recovered at Fontana
+                                        interchange. Asset integrity confirmed.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenario-card" onclick="toggleScenario(1)">
+                        <div class="scenario-header">
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <div
+                                    style="width:40px;height:40px;border-radius:12px;background:#ef444422;display:flex;align-items:center;justify-content:center;">
+                                    <i class="ph-fill ph-fire" style="font-size:20px;color:#ef4444;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size:14px;font-weight:800;">Wildfire Evacuation</div>
+                                    <div style="font-size:11px;color:var(--text-muted);">San Bernardino foothills → I-15
+                                        corridor</div>
+                                </div>
+                            </div>
+                            <i class="ph-bold ph-caret-down" style="color:var(--text-muted);font-size:16px;"></i>
+                        </div>
+                        <div id="scenario-steps-1" class="scenario-steps"
+                            style="max-height:0;opacity:0;overflow:hidden;transition:all 0.4s ease;">
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#f59e0b;min-width:44px;padding-top:2px;">
+                                    T+0s</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#f59e0b;">SHIELD</span>
+                                    <div style="font-size:12px;margin-top:2px;">Thermal sensors in San Bernardino
+                                        foothills detect 420°F anomaly. Fire confirmed.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#0d9488;min-width:44px;padding-top:2px;">
+                                    T+30s</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#0d9488;">HORIZON</span>
+                                    <div style="font-size:12px;margin-top:2px;">Wind model projects fire spread
+                                        northeast at 15mph. Evacuation zones calculated.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#4f46e5;min-width:44px;padding-top:2px;">
+                                    T+45s</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#4f46e5;">IWIN</span>
+                                    <div style="font-size:12px;margin-top:2px;">Automated evacuation alerts pushed to
+                                        12,000 registered residents in 3 zones.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#4f46e5;min-width:44px;padding-top:2px;">
+                                    T+3min</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#4f46e5;">IWIN</span>
+                                    <div style="font-size:12px;margin-top:2px;">Traffic management: I-15 contraflow
+                                        initiated. CHP units deployed to intersections.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step" style="display:flex;gap:12px;padding:10px 0;">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#0d9488;min-width:44px;padding-top:2px;">
+                                    T+8min</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#0d9488;">HORIZON</span>
+                                    <div style="font-size:12px;margin-top:2px;">Hospital capacity updated: Loma Linda at
+                                        78%, Arrowhead at 65%. Triage routing active.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenario-card" onclick="toggleScenario(2)">
+                        <div class="scenario-header">
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <div
+                                    style="width:40px;height:40px;border-radius:12px;background:#4f46e522;display:flex;align-items:center;justify-content:center;">
+                                    <i class="ph-fill ph-police-car" style="font-size:20px;color:#4f46e5;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-size:14px;font-weight:800;">Cross-County Pursuit</div>
+                                    <div style="font-size:11px;color:var(--text-muted);">OC → LA County line handoff via
+                                        SR-91</div>
+                                </div>
+                            </div>
+                            <i class="ph-bold ph-caret-down" style="color:var(--text-muted);font-size:16px;"></i>
+                        </div>
+                        <div id="scenario-steps-2" class="scenario-steps"
+                            style="max-height:0;opacity:0;overflow:hidden;transition:all 0.4s ease;">
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#4f46e5;min-width:44px;padding-top:2px;">
+                                    T+0s</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#4f46e5;">IWIN</span>
+                                    <div style="font-size:12px;margin-top:2px;">OCSD units initiate pursuit on SR-91
+                                        westbound. Suspect: Silver sedan, plate 8XYZ123.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#f59e0b;min-width:44px;padding-top:2px;">
+                                    T+2min</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#f59e0b;">SHIELD</span>
+                                    <div style="font-size:12px;margin-top:2px;">ALPR cameras on SR-91 confirm vehicle
+                                        match. Speed: 95mph heading toward LA County line.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#0d9488;min-width:44px;padding-top:2px;">
+                                    T+3min</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#0d9488;">HORIZON</span>
+                                    <div style="font-size:12px;margin-top:2px;">Pursuit risk score: ELEVATED.
+                                        Recommended: aerial tracking, ground unit stand-down.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step"
+                                style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#4f46e5;min-width:44px;padding-top:2px;">
+                                    T+5min</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#4f46e5;">IWIN</span>
+                                    <div style="font-size:12px;margin-top:2px;">Automated handoff to CHP South. LAPD Air
+                                        Support dispatched. County line crossed.</div>
+                                </div>
+                            </div>
+                            <div class="scenario-step" style="display:flex;gap:12px;padding:10px 0;">
+                                <div
+                                    style="font-size:9px;font-weight:800;color:#10b981;min-width:44px;padding-top:2px;">
+                                    T+18min</div>
+                                <div><span style="font-size:10px;font-weight:800;color:#10b981;">RESOLVED</span>
+                                    <div style="font-size:12px;margin-top:2px;">Suspect vehicle disabled via authorized
+                                        tire deflation on I-605. Arrest by CHP.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESOURCE ALLOCATION PANEL -->
+        <section id="resource-panel" class="section-gap" aria-label="Resource Allocation">
+            <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+                <h3 style="font-size:20px;font-weight:800;margin-bottom:16px;"><i class="ph-bold ph-users-three"
+                        style="margin-right:8px;color:var(--iwin);"></i>Live Resource Allocation</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+                    <div class="kpi-card" style="text-align:left;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="font-size:12px;font-weight:700;color:var(--iwin);"><i
+                                    class="ph-fill ph-police-car" style="margin-right:4px;"></i>Patrol Units</span><span
+                                id="res-patrol"
+                                style="font-size:18px;font-weight:900;color:var(--text-primary);">0</span>
+                        </div>
+                        <div style="height:6px;background:var(--bg-panel-alt);border-radius:3px;overflow:hidden;">
+                            <div id="res-patrol-bar"
+                                style="height:100%;width:0%;background:var(--iwin);border-radius:3px;transition:width 1s;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-card" style="text-align:left;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="font-size:12px;font-weight:700;color:var(--horizon);"><i
+                                    class="ph-fill ph-drone" style="margin-right:4px;"></i>Drones Airborne</span><span
+                                id="res-drones"
+                                style="font-size:18px;font-weight:900;color:var(--text-primary);">0</span>
+                        </div>
+                        <div style="height:6px;background:var(--bg-panel-alt);border-radius:3px;overflow:hidden;">
+                            <div id="res-drones-bar"
+                                style="height:100%;width:0%;background:var(--horizon);border-radius:3px;transition:width 1s;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-card" style="text-align:left;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="font-size:12px;font-weight:700;color:var(--shield);"><i class="ph-fill ph-cpu"
+                                    style="margin-right:4px;"></i>Sensors Online</span><span id="res-sensors"
+                                style="font-size:18px;font-weight:900;color:var(--text-primary);">0</span>
+                        </div>
+                        <div style="height:6px;background:var(--bg-panel-alt);border-radius:3px;overflow:hidden;">
+                            <div id="res-sensors-bar"
+                                style="height:100%;width:0%;background:var(--shield);border-radius:3px;transition:width 1s;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-card" style="text-align:left;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="font-size:12px;font-weight:700;color:#e11d48;"><i class="ph-fill ph-map-pin"
+                                    style="margin-right:4px;"></i>GPS Trackers</span><span id="res-gps"
+                                style="font-size:18px;font-weight:900;color:var(--text-primary);">0</span>
+                        </div>
+                        <div style="height:6px;background:var(--bg-panel-alt);border-radius:3px;overflow:hidden;">
+                            <div id="res-gps-bar"
+                                style="height:100%;width:0%;background:#e11d48;border-radius:3px;transition:width 1s;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-card" style="text-align:left;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <span style="font-size:12px;font-weight:700;color:var(--success);"><i
+                                    class="ph-fill ph-user" style="margin-right:4px;"></i>Officers Online</span><span
+                                id="res-officers"
+                                style="font-size:18px;font-weight:900;color:var(--text-primary);">0</span>
+                        </div>
+                        <div style="height:6px;background:var(--bg-panel-alt);border-radius:3px;overflow:hidden;">
+                            <div id="res-officers-bar"
+                                style="height:100%;width:0%;background:var(--success);border-radius:3px;transition:width 1s;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COST-BENEFIT ANALYSIS -->
+        <section id="cost-benefit" class="section-gap" aria-label="Cost-Benefit Analysis">
+            <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+                <h3 style="font-size:20px;font-weight:800;margin-bottom:4px;"><i class="ph-bold ph-chart-line-up"
+                        style="margin-right:8px;color:var(--success);"></i>Cost-Benefit Analysis</h3>
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Projected ROI from SCS deployment
+                    over 5 years based on reduced response times, incident prevention, and operational efficiency.</p>
+                <div class="charts-grid">
+                    <div class="chart-panel">
+                        <h3>ROI Projection (5 Year)</h3>
+                        <p class="chart-desc">Annual cost savings vs. investment for a mid-size regional deployment.</p>
+                        <div class="chart-container"><canvas id="roiChart"></canvas></div>
+                    </div>
+                    <div class="chart-panel">
+                        <h3>Response Time Improvement</h3>
+                        <p class="chart-desc">Average emergency response time before and after SCS integration.</p>
+                        <div class="chart-container"><canvas id="responseChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPLIANCE & STANDARDS -->
+        <section id="compliance-section" class="section-gap" aria-label="Compliance">
+            <div style="max-width:1280px;margin:0 auto;padding:0 20px;text-align:center;">
+                <h3 style="font-size:20px;font-weight:800;margin-bottom:4px;"><i class="ph-bold ph-certificate"
+                        style="margin-right:8px;color:#6366f1;"></i>Compliance &amp; Standards</h3>
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">SCS meets or exceeds all major
+                    government and industry security standards.</p>
+                <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;">
+                    <div
+                        style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;min-width:140px;text-align:center;">
+                        <div style="font-size:28px;margin-bottom:6px;">&#128274;</div>
+                        <div style="font-size:13px;font-weight:800;color:var(--text-primary);">CJIS</div>
+                        <div style="font-size:10px;color:var(--text-muted);">Criminal Justice<br>Information Services
+                        </div>
+                    </div>
+                    <div
+                        style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;min-width:140px;text-align:center;">
+                        <div style="font-size:28px;margin-bottom:6px;">&#128737;</div>
+                        <div style="font-size:13px;font-weight:800;color:var(--text-primary);">NIST 800-53</div>
+                        <div style="font-size:10px;color:var(--text-muted);">Federal Security<br>Controls</div>
+                    </div>
+                    <div
+                        style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;min-width:140px;text-align:center;">
+                        <div style="font-size:28px;margin-bottom:6px;">&#9989;</div>
+                        <div style="font-size:13px;font-weight:800;color:var(--text-primary);">SOC 2 Type II</div>
+                        <div style="font-size:10px;color:var(--text-muted);">Service Org<br>Controls</div>
+                    </div>
+                    <div
+                        style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;min-width:140px;text-align:center;">
+                        <div style="font-size:28px;margin-bottom:6px;">&#127760;</div>
+                        <div style="font-size:13px;font-weight:800;color:var(--text-primary);">FedRAMP</div>
+                        <div style="font-size:10px;color:var(--text-muted);">Federal Risk &amp;<br>Authorization</div>
+                    </div>
+                    <div
+                        style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;min-width:140px;text-align:center;">
+                        <div style="font-size:28px;margin-bottom:6px;">&#128272;</div>
+                        <div style="font-size:13px;font-weight:800;color:var(--text-primary);">AES-256</div>
+                        <div style="font-size:10px;color:var(--text-muted);">End-to-End<br>Encryption</div>
+                    </div>
+                    <div
+                        style="background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;padding:20px 24px;min-width:140px;text-align:center;">
+                        <div style="font-size:28px;margin-bottom:6px;">&#128101;</div>
+                        <div style="font-size:13px;font-weight:800;color:var(--text-primary);">HIPAA</div>
+                        <div style="font-size:10px;color:var(--text-muted);">Health Data<br>Privacy</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SYSTEM HEALTH MONITOR -->
+        <section id="system-health" class="section-gap" aria-label="System Health">
+            <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+                <h3 style="font-size:20px;font-weight:800;margin-bottom:16px;"><i class="ph-bold ph-heartbeat"
+                        style="margin-right:8px;color:#10b981;"></i>System Health Monitor</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;">
+                    <div class="kpi-card" style="text-align:center;">
+                        <div
+                            style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">
+                            Server Uptime</div>
+                        <div id="health-uptime" style="font-size:24px;font-weight:900;color:#10b981;">99.97%</div>
+                        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Last 30 days</div>
+                    </div>
+                    <div class="kpi-card" style="text-align:center;">
+                        <div
+                            style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">
+                            API Latency</div>
+                        <div id="health-latency" style="font-size:24px;font-weight:900;color:#10b981;">23ms</div>
+                        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Avg response</div>
+                    </div>
+                    <div class="kpi-card" style="text-align:center;">
+                        <div
+                            style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">
+                            Database</div>
+                        <div id="health-db" style="font-size:24px;font-weight:900;color:#10b981;">&#9679; Connected
+                        </div>
+                        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Primary + Replica</div>
+                    </div>
+                    <div class="kpi-card" style="text-align:center;">
+                        <div
+                            style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">
+                            Bandwidth</div>
+                        <div id="health-bw" style="font-size:24px;font-weight:900;color:#f59e0b;">2.4 Gbps</div>
+                        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">of 10 Gbps capacity</div>
+                    </div>
+                    <div class="kpi-card" style="text-align:center;">
+                        <div
+                            style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">
+                            Encryption</div>
+                        <div style="font-size:24px;font-weight:900;color:#10b981;">&#128274; Active</div>
+                        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">AES-256 TLS 1.3</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DATA RETENTION POLICY -->
+        <section id="data-retention" class="section-gap" aria-label="Data Retention">
+            <div style="max-width:1280px;margin:0 auto;padding:0 20px;">
+                <div
+                    style="background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #334155;border-radius:16px;padding:24px 28px;color:#e2e8f0;">
+                    <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+                        <div style="font-size:32px;">&#128220;</div>
+                        <div style="flex:1;min-width:250px;">
+                            <h4 style="font-size:16px;font-weight:800;margin-bottom:6px;">Data Retention &amp; Privacy
+                                Policy</h4>
+                            <p style="font-size:12px;color:#94a3b8;line-height:1.6;margin-bottom:8px;">
+                                All operational data is retained for <strong style="color:#e2e8f0;">7 years</strong> per
+                                CJIS Security Policy 5.4.
+                                Personally identifiable information (PII) is encrypted at rest and in transit.
+                                FOIA requests are processed within 20 business days.
+                                Audit logs are immutable and retained indefinitely.
+                            </p>
+                            <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:#64748b;">
+                                <span><i class="ph-bold ph-check-circle"
+                                        style="color:#10b981;margin-right:4px;"></i>CCPA Compliant</span>
+                                <span><i class="ph-bold ph-check-circle"
+                                        style="color:#10b981;margin-right:4px;"></i>FOIA Ready</span>
+                                <span><i class="ph-bold ph-check-circle"
+                                        style="color:#10b981;margin-right:4px;"></i>Right to Erasure</span>
+                                <span><i class="ph-bold ph-check-circle"
+                                        style="color:#10b981;margin-right:4px;"></i>Data Minimization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
     </main>
@@ -454,25 +1220,62 @@
                 </div>
             </div>
             <div class="footer-actions">
-                <button class="footer-btn" onclick="exportPDF()"><i class="ph-bold ph-file-pdf"></i> Export PDF</button>
+                <button class="footer-btn" onclick="exportEnhancedPDF()"><i class="ph-bold ph-file-pdf"></i> Export
+                    PDF</button>
+                <button class="footer-btn" onclick="exportDashboardReport()"><i class="ph-bold ph-printer"></i> Print
+                    Report</button>
+                <button class="footer-btn" onclick="exportCSV()"><i class="ph-bold ph-file-csv"></i> Export CSV</button>
+                <button class="footer-btn" onclick="openAuditLog()"><i class="ph-bold ph-clipboard-text"></i> Audit
+                    Log</button>
+                <button class="footer-btn" onclick="openGeofenceManager()"><i class="ph-bold ph-polygon"></i>
+                    Geofences</button>
                 <button class="footer-btn" onclick="toggleTheme()"><i class="ph-bold ph-moon"></i> Toggle Theme</button>
+                <button class="footer-btn" onclick="printDashboard()"><i class="ph-bold ph-printer"></i> Print
+                    Dashboard</button>
+                <button class="footer-btn" onclick="showPrivacyPolicy()"><i class="ph-bold ph-file-text"></i> Privacy
+                    Policy</button>
             </div>
             <p class="footer-copy" style="margin-top:24px;">
-                &copy; 2026 SoCal SMART Consortium. All rights reserved.<br>
-                Built for the Inland Empire, Los Angeles, and San Diego Public Safety Cooperative.
+                &copy; 2026 SCS (SoCal-SMART) Consortium. All rights reserved.<br>
+                Built for Orange County, the Inland Empire, Los Angeles, and San Diego Public Safety Cooperative.
             </p>
         </div>
     </footer>
 
-    <!-- App Logic -->
+    <!-- ======== DISPATCH CHAT PANEL ======== -->
+    <div id="chat-panel"
+        style="position:fixed;right:-380px;top:60px;width:360px;height:calc(100vh - 80px);background:var(--bg-panel);border-left:1px solid var(--border);box-shadow:-4px 0 20px rgba(0,0,0,0.1);z-index:9990;transition:right 0.3s ease;display:flex;flex-direction:column;border-radius:16px 0 0 16px;">
+        <div
+            style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+            <div>
+                <div style="font-size:14px;font-weight:800;"><i class="ph-bold ph-chats-circle"
+                        style="margin-right:6px;"></i>Dispatch Comms</div>
+                <div style="font-size:10px;color:var(--text-muted);">Interagency Channel</div>
+            </div>
+            <button onclick="toggleChatPanel()"
+                style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px;"><i
+                    class="ph-bold ph-x"></i></button>
+        </div>
+        <div id="chat-messages" style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;">
+        </div>
+        <div style="padding:12px;border-top:1px solid var(--border);display:flex;gap:8px;">
+            <input id="chat-input" type="text" placeholder="Type dispatch message..."
+                style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg-panel-alt);color:var(--text-primary);font-size:12px;outline:none;font-family:Inter,sans-serif;"
+                onkeydown="if(event.key==='Enter')sendChatMessage()">
+            <button onclick="sendChatMessage()"
+                style="padding:10px 14px;background:linear-gradient(135deg,#4f46e5,#6366f1);color:white;border:none;border-radius:10px;cursor:pointer;font-weight:700;font-size:12px;"><i
+                    class="ph-bold ph-paper-plane-tilt"></i></button>
+        </div>
+    </div>
+    <button id="chat-toggle-btn" onclick="toggleChatPanel()"
+        style="position:fixed;right:20px;bottom:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#6366f1);color:white;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(79,70,229,0.4);z-index:9989;font-size:20px;display:flex;align-items:center;justify-content:center;"
+        aria-label="Toggle dispatch chat">
+        <i class="ph-bold ph-chats-circle"></i>
+    </button>
+
+    <!-- ======== APP JAVASCRIPT ======== -->
     <script src="smart-app.js"></script>
 
-    <!-- Show login after loading screen -->
-    <script>
-        setTimeout(() => {
-            document.getElementById('login-screen').classList.remove('hidden');
-        }, 2900);
-    </script>
 </body>
 
 </html>
