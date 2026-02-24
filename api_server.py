@@ -347,6 +347,53 @@ def get_geofences():
         return jsonify({"count": 0, "geofences": [], "note": "Geofences require MySQL"})
 
 
+@app.route('/api/v1/payment', methods=['POST'])
+def process_payment():
+    """Process a Square payment (demo mode — swap in squareup SDK for production)."""
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Request body is required"}), 400
+
+    required = ['source_id', 'amount', 'currency']
+    missing = [f for f in required if f not in data]
+    if missing:
+        return jsonify({"error": f"Missing required fields: {', '.join(missing)}"}), 400
+
+    order_id = f"SCS-{uuid.uuid4().hex[:8].upper()}"
+    amount_dollars = data['amount'] / 100
+
+    # Log to audit (if MySQL available)
+    if USE_MYSQL:
+        query_db(
+            "INSERT INTO audit_log (action, details, ip_address) VALUES (%s, %s, %s)",
+            ('PAYMENT', f"Order {order_id}: ${amount_dollars:.2f} from {data.get('buyer_email', 'N/A')}", request.remote_addr),
+            commit=True
+        )
+
+    # In production, use:
+    # from square.client import Client
+    # client = Client(access_token=os.environ['SQUARE_ACCESS_TOKEN'], environment='production')
+    # result = client.payments.create_payment({
+    #     "source_id": data['source_id'],
+    #     "amount_money": {"amount": data['amount'], "currency": data['currency']},
+    #     "idempotency_key": order_id
+    # })
+
+    return jsonify({
+        "success": True,
+        "order_id": order_id,
+        "amount": amount_dollars,
+        "currency": data['currency'],
+        "buyer_email": data.get('buyer_email'),
+        "buyer_name": data.get('buyer_name'),
+        "items": data.get('items', []),
+        "status": "COMPLETED",
+        "demo_mode": True,
+        "timestamp": datetime.now().isoformat(),
+        "message": "Payment processed successfully (demo mode)"
+    }), 201
+
+
 # ─── Error Handlers ───────────────────────────────────────────────────────────
 
 @app.errorhandler(404)
