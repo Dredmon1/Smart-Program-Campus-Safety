@@ -1177,8 +1177,8 @@ var squareCard = null;
 var squarePayments = null;
 
 async function initSquareCard() {
-    // Square Production App ID
-    var SQUARE_APP_ID = 'sq0idp-awsBAbFM7mLfs0pxQiBNpA';
+    // Square Sandbox App ID
+    var SQUARE_APP_ID = 'sandbox-sq0idb-01vNvGY3276PzvemlFT2kg';
     var SQUARE_LOCATION_ID = 'REPLACE_WITH_YOUR_LOCATION_ID';
 
     try {
