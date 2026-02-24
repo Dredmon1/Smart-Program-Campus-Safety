@@ -370,14 +370,27 @@ def process_payment():
             commit=True
         )
 
-    # In production, use:
-    # from square.client import Client
-    # client = Client(access_token=os.environ['SQUARE_ACCESS_TOKEN'], environment='production')
-    # result = client.payments.create_payment({
-    #     "source_id": data['source_id'],
-    #     "amount_money": {"amount": data['amount'], "currency": data['currency']},
-    #     "idempotency_key": order_id
-    # })
+    # Process via Square SDK if access token is configured
+    square_token = os.environ.get('SQUARE_ACCESS_TOKEN')
+    square_result = None
+    if square_token and data.get('source_id', '').startswith('cnon:'):
+        try:
+            from square.client import Client
+            client = Client(access_token=square_token, environment='production')
+            result = client.payments.create_payment({
+                "source_id": data['source_id'],
+                "amount_money": {"amount": data['amount'], "currency": data['currency']},
+                "idempotency_key": order_id,
+                "buyer_email_address": data.get('buyer_email')
+            })
+            if result.is_success():
+                square_result = result.body.get('payment', {})
+            else:
+                return jsonify({"error": "Payment failed", "details": str(result.errors)}), 400
+        except ImportError:
+            pass  # squareup not installed, continue in demo mode
+        except Exception as e:
+            return jsonify({"error": f"Payment processing error: {str(e)}"}), 500
 
     return jsonify({
         "success": True,

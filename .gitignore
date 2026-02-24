@@ -11,3 +11,12 @@ desktop.ini
 
 # Misc
 *.log
+
+# Environment / Secrets
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.pyc
