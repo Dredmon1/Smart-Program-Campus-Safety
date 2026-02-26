@@ -1,5 +1,5 @@
 // SoCal-SMART Command System — Service Worker (PWA)
-const CACHE_NAME = 'scs-command-v2';
+const CACHE_NAME = 'scs-command-v3';
 const ASSETS = [
     '/',
     '/SMART%20Program%20Campus%20Safety%20Optimization.html',

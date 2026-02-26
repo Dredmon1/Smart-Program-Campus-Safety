@@ -8,9 +8,12 @@ Run with Docker: docker-compose up
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
 import random
 import uuid
 import os
+
+load_dotenv()
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
@@ -376,9 +379,11 @@ def process_payment():
     if square_token and data.get('source_id', '').startswith('cnon:'):
         try:
             from square.client import Client
-            client = Client(access_token=square_token, environment='production')
+            client = Client(access_token=square_token, environment=os.environ.get('SQUARE_ENVIRONMENT', 'sandbox'))
+            location_id = os.environ.get('SQUARE_LOCATION_ID', 'LTE7CXF3JQWH9')
             result = client.payments.create_payment({
                 "source_id": data['source_id'],
+                "location_id": location_id,
                 "amount_money": {"amount": data['amount'], "currency": data['currency']},
                 "idempotency_key": order_id,
                 "buyer_email_address": data.get('buyer_email')
@@ -424,7 +429,7 @@ if __name__ == '__main__':
     db_label = "MySQL 8.0" if USE_MYSQL else "In-Memory (set MYSQL_HOST to enable MySQL)"
     print(f"\n╔══════════════════════════════════════════════╗")
     print(f"║   SoCal-SMART Command System — API v2.0     ║")
-    print(f"║   http://localhost:5000/api/health           ║")
+    print(f"║   http://localhost:5050/api/health           ║")
     print(f"║   Database: {db_label:<32s} ║")
     print(f"╚══════════════════════════════════════════════╝\n")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5050)

@@ -71,72 +71,72 @@ const pillarData = {
 
 const facilityData = {
     hospitals: [
-        { coords: [34.0628, -118.2603], name: 'LA County + USC Medical Center', type: 'Level I Trauma', beds: 600 },
-        { coords: [34.0736, -118.3800], name: 'Cedars-Sinai Medical Center', type: 'Level I Trauma', beds: 886 },
-        { coords: [34.0663, -118.4464], name: 'UCLA Ronald Reagan Medical', type: 'Level I Trauma', beds: 520 },
-        { coords: [34.0590, -118.2009], name: 'Keck Hospital of USC', type: 'Research Hospital', beds: 401 },
-        { coords: [34.1478, -118.1445], name: 'Huntington Memorial Hospital', type: 'Level II Trauma', beds: 619 },
-        { coords: [34.0720, -117.3255], name: 'Loma Linda University Medical', type: 'Level I Trauma', beds: 900 },
-        { coords: [34.0552, -117.1924], name: 'Community Hospital San Bernardino', type: 'Level II Trauma', beds: 373 },
-        { coords: [32.7580, -117.1600], name: 'UC San Diego Health', type: 'Level I Trauma', beds: 808 },
-        { coords: [33.7850, -118.1140], name: 'Long Beach Memorial Medical', type: 'Level II Trauma', beds: 462 },
-        { coords: [33.6400, -117.8500], name: 'UCI Medical Center', type: 'Level I Trauma', beds: 417 },
-        { coords: [33.7700, -118.1936], name: 'St. Mary Medical Center', type: 'General', beds: 389 },
-        { coords: [33.8750, -117.9064], name: 'St. Joseph Hospital Orange', type: 'Level II Trauma', beds: 525 },
-        { coords: [33.8361, -117.9147], name: 'CHOC Children\'s Hospital', type: 'Pediatric Trauma', beds: 334 },
-        { coords: [33.7589, -117.8452], name: 'Kaiser Permanente Irvine', type: 'HMO Medical Center', beds: 300 },
-        { coords: [33.9192, -118.2326], name: 'Kaiser Permanente Downey', type: 'HMO Medical Center', beds: 342 },
-        { coords: [34.1390, -117.9862], name: 'Kaiser Permanente Fontana', type: 'HMO Medical Center', beds: 490 },
-        { coords: [33.1959, -117.3795], name: 'Scripps Memorial Encinitas', type: 'Level III Trauma', beds: 194 },
-        { coords: [32.7990, -117.1542], name: 'Sharp Memorial Hospital', type: 'Level II Trauma', beds: 457 },
-        { coords: [32.7270, -117.1573], name: 'Rady Children\'s Hospital SD', type: 'Pediatric Trauma', beds: 524 },
-        { coords: [33.9534, -118.3875], name: 'Centinela Hospital Medical', type: 'Level II Trauma', beds: 369 }
+        { coords: [34.0579, -118.2076], name: 'LA County + USC Medical Center', type: 'Level I Trauma', beds: 600 },
+        { coords: [34.0762, -118.3801], name: 'Cedars-Sinai Medical Center', type: 'Level I Trauma', beds: 886 },
+        { coords: [34.0665, -118.4462], name: 'UCLA Ronald Reagan Medical', type: 'Level I Trauma', beds: 520 },
+        { coords: [34.0613, -118.2040], name: 'Keck Hospital of USC', type: 'Research Hospital', beds: 401 },
+        { coords: [34.1280, -118.1325], name: 'Huntington Memorial Hospital', type: 'Level II Trauma', beds: 619 },
+        { coords: [34.0493, -117.2654], name: 'Loma Linda University Medical', type: 'Level I Trauma', beds: 900 },
+        { coords: [34.1242, -117.2757], name: 'Community Hospital San Bernardino', type: 'Level II Trauma', beds: 373 },
+        { coords: [32.7581, -117.1658], name: 'UC San Diego Health', type: 'Level I Trauma', beds: 808 },
+        { coords: [33.7937, -118.1899], name: 'Long Beach Memorial Medical', type: 'Level II Trauma', beds: 462 },
+        { coords: [33.7883, -117.8939], name: 'UCI Medical Center', type: 'Level I Trauma', beds: 417 },
+        { coords: [33.7756, -118.1931], name: 'St. Mary Medical Center', type: 'General', beds: 389 },
+        { coords: [33.7888, -117.8544], name: 'St. Joseph Hospital Orange', type: 'Level II Trauma', beds: 525 },
+        { coords: [33.7871, -117.8547], name: 'CHOC Children\'s Hospital', type: 'Pediatric Trauma', beds: 334 },
+        { coords: [33.6575, -117.7390], name: 'Kaiser Permanente Irvine', type: 'HMO Medical Center', beds: 300 },
+        { coords: [33.9387, -118.1314], name: 'Kaiser Permanente Downey', type: 'HMO Medical Center', beds: 342 },
+        { coords: [34.0698, -117.4474], name: 'Kaiser Permanente Fontana', type: 'HMO Medical Center', beds: 490 },
+        { coords: [33.0451, -117.2718], name: 'Scripps Memorial Encinitas', type: 'Level III Trauma', beds: 194 },
+        { coords: [32.7994, -117.1540], name: 'Sharp Memorial Hospital', type: 'Level II Trauma', beds: 457 },
+        { coords: [32.7990, -117.1530], name: 'Rady Children\'s Hospital SD', type: 'Pediatric Trauma', beds: 524 },
+        { coords: [33.9611, -118.3969], name: 'Centinela Hospital Medical', type: 'Level II Trauma', beds: 369 }
     ],
     fireStations: [
-        { coords: [34.0553, -118.2468], name: 'LAFD Station 9', dept: 'Los Angeles FD', type: 'Engine + Truck' },
-        { coords: [34.0481, -118.2588], name: 'LAFD Station 10', dept: 'Los Angeles FD', type: 'Engine + Rescue' },
-        { coords: [34.0826, -118.3445], name: 'LAFD Station 27', dept: 'Los Angeles FD', type: 'Engine + Hazmat' },
-        { coords: [34.0258, -118.3964], name: 'LAFD Station 59', dept: 'Los Angeles FD', type: 'Engine + ALS' },
-        { coords: [33.9420, -118.4065], name: 'LAFD Station 51', dept: 'Los Angeles FD', type: 'Engine + Truck' },
-        { coords: [33.9425, -118.2551], name: 'Inglewood Fire Station 1', dept: 'Inglewood FD', type: 'Engine + Ladder' },
-        { coords: [33.7175, -117.8311], name: 'OCFA Station 19 Tustin', dept: 'OC Fire Authority', type: 'Engine + Medic' },
-        { coords: [33.8314, -117.9261], name: 'OCFA Station 22 Orange', dept: 'OC Fire Authority', type: 'Engine + Truck' },
-        { coords: [33.6536, -117.8319], name: 'OCFA Station 56 Irvine', dept: 'OC Fire Authority', type: 'Engine + Medic' },
-        { coords: [33.5908, -117.8732], name: 'OCFA Station 43 Laguna Hills', dept: 'OC Fire Authority', type: 'Engine + Brush' },
-        { coords: [34.1015, -117.5610], name: 'SB County Fire Station 75', dept: 'San Bernardino Co. Fire', type: 'Engine + Brush' },
-        { coords: [34.0633, -117.6356], name: 'Rancho Cucamonga Fire 174', dept: 'RC Fire Protection', type: 'Engine + Ladder' },
-        { coords: [34.0567, -117.1820], name: 'SB County Fire Station 232', dept: 'San Bernardino Co. Fire', type: 'Engine + Hazmat' },
-        { coords: [33.9806, -117.3754], name: 'Riverside Fire Station 1', dept: 'Riverside FD', type: 'Engine + Medic' },
-        { coords: [32.7270, -117.1628], name: 'SDFD Station 1 Downtown', dept: 'San Diego FD', type: 'Engine + Truck' },
-        { coords: [32.7502, -117.2108], name: 'SDFD Station 8 Old Town', dept: 'San Diego FD', type: 'Engine + Brush' },
-        { coords: [32.8334, -117.1390], name: 'SDFD Station 29 Kearny Mesa', dept: 'San Diego FD', type: 'Engine + ALS' },
-        { coords: [32.6308, -117.0840], name: 'Chula Vista Fire Station 1', dept: 'Chula Vista FD', type: 'Engine + Truck' }
+        { coords: [34.0398, -118.2557], name: 'LAFD Station 9', dept: 'Los Angeles FD', type: 'Engine + Truck' },
+        { coords: [34.0419, -118.2433], name: 'LAFD Station 10', dept: 'Los Angeles FD', type: 'Engine + Rescue' },
+        { coords: [34.0826, -118.3612], name: 'LAFD Station 27', dept: 'Los Angeles FD', type: 'Engine + Hazmat' },
+        { coords: [34.0132, -118.3938], name: 'LAFD Station 59', dept: 'Los Angeles FD', type: 'Engine + ALS' },
+        { coords: [33.9571, -118.3894], name: 'LAFD Station 51', dept: 'Los Angeles FD', type: 'Engine + Truck' },
+        { coords: [33.9617, -118.3531], name: 'Inglewood Fire Station 1', dept: 'Inglewood FD', type: 'Engine + Ladder' },
+        { coords: [33.7425, -117.8230], name: 'OCFA Station 19 Tustin', dept: 'OC Fire Authority', type: 'Engine + Medic' },
+        { coords: [33.8037, -117.8369], name: 'OCFA Station 22 Orange', dept: 'OC Fire Authority', type: 'Engine + Truck' },
+        { coords: [33.6734, -117.7926], name: 'OCFA Station 56 Irvine', dept: 'OC Fire Authority', type: 'Engine + Medic' },
+        { coords: [33.5974, -117.7079], name: 'OCFA Station 43 Laguna Hills', dept: 'OC Fire Authority', type: 'Engine + Brush' },
+        { coords: [34.1020, -117.5687], name: 'SB County Fire Station 75', dept: 'San Bernardino Co. Fire', type: 'Engine + Brush' },
+        { coords: [34.1162, -117.5653], name: 'Rancho Cucamonga Fire 174', dept: 'RC Fire Protection', type: 'Engine + Ladder' },
+        { coords: [34.1102, -117.2895], name: 'SB County Fire Station 232', dept: 'San Bernardino Co. Fire', type: 'Engine + Hazmat' },
+        { coords: [33.9812, -117.3753], name: 'Riverside Fire Station 1', dept: 'Riverside FD', type: 'Engine + Medic' },
+        { coords: [32.7228, -117.1643], name: 'SDFD Station 1 Downtown', dept: 'San Diego FD', type: 'Engine + Truck' },
+        { coords: [32.7536, -117.1963], name: 'SDFD Station 8 Old Town', dept: 'San Diego FD', type: 'Engine + Brush' },
+        { coords: [32.8201, -117.1532], name: 'SDFD Station 29 Kearny Mesa', dept: 'San Diego FD', type: 'Engine + ALS' },
+        { coords: [32.6406, -117.0837], name: 'Chula Vista Fire Station 1', dept: 'Chula Vista FD', type: 'Engine + Truck' }
     ]
 };
 
 const freewayData = [
-    { coords: [34.05, -118.24], route: 'I-5', name: 'Golden State Fwy', type: 'Interstate' },
-    { coords: [34.05, -118.16], route: 'I-10', name: 'San Bernardino Fwy', type: 'Interstate' },
-    { coords: [34.06, -117.40], route: 'I-15', name: 'Barstow Fwy', type: 'Interstate' },
-    { coords: [33.78, -118.18], route: 'I-405', name: 'San Diego Fwy', type: 'Interstate' },
-    { coords: [34.15, -118.40], route: 'US-101', name: 'Hollywood Fwy', type: 'US Highway' },
-    { coords: [33.90, -118.06], route: 'I-605', name: 'San Gabriel River Fwy', type: 'Interstate' },
-    { coords: [33.80, -117.90], route: 'SR-55', name: 'Costa Mesa Fwy', type: 'State Route' },
-    { coords: [33.95, -117.90], route: 'SR-91', name: 'Riverside Fwy', type: 'State Route' },
-    { coords: [33.88, -117.75], route: 'SR-241', name: 'Foothill/Eastern Toll', type: 'Toll Road' },
-    { coords: [33.75, -117.86], route: 'I-5 South', name: 'Santa Ana Fwy', type: 'Interstate' },
-    { coords: [34.07, -117.58], route: 'I-210', name: 'Foothill Fwy', type: 'Interstate' },
-    { coords: [34.02, -118.30], route: 'I-110', name: 'Harbor Fwy', type: 'Interstate' },
-    { coords: [33.93, -118.40], route: 'I-105', name: 'Century Fwy', type: 'Interstate' },
-    { coords: [33.70, -117.80], route: 'SR-73', name: 'San Joaquin Hills Toll', type: 'Toll Road' },
-    { coords: [33.62, -117.93], route: 'SR-133', name: 'Laguna Fwy', type: 'State Route' },
-    { coords: [32.72, -117.16], route: 'I-5 SD', name: 'I-5 San Diego', type: 'Interstate' },
-    { coords: [32.79, -117.09], route: 'I-8', name: 'Mission Valley Fwy', type: 'Interstate' },
-    { coords: [32.85, -117.22], route: 'I-805', name: 'I-805 San Diego', type: 'Interstate' },
-    { coords: [32.69, -117.05], route: 'SR-54', name: 'South Bay Fwy', type: 'State Route' },
-    { coords: [34.07, -117.30], route: 'I-215', name: 'I-215 Inland', type: 'Interstate' },
-    { coords: [33.96, -117.33], route: 'SR-60', name: 'Pomona Fwy', type: 'State Route' },
-    { coords: [34.17, -118.56], route: 'US-101 W', name: 'Ventura Fwy', type: 'US Highway' }
+    { coords: [34.0566, -118.2371], route: 'I-5', name: 'Golden State Fwy', type: 'Interstate' },
+    { coords: [34.0425, -118.1710], route: 'I-10', name: 'San Bernardino Fwy', type: 'Interstate' },
+    { coords: [34.1375, -117.2940], route: 'I-15', name: 'Barstow Fwy', type: 'Interstate' },
+    { coords: [33.9461, -118.3810], route: 'I-405', name: 'San Diego Fwy', type: 'Interstate' },
+    { coords: [34.1015, -118.3265], route: 'US-101', name: 'Hollywood Fwy', type: 'US Highway' },
+    { coords: [33.9217, -118.0862], route: 'I-605', name: 'San Gabriel River Fwy', type: 'Interstate' },
+    { coords: [33.7275, -117.8678], route: 'SR-55', name: 'Costa Mesa Fwy', type: 'State Route' },
+    { coords: [33.8696, -117.7472], route: 'SR-91', name: 'Riverside Fwy', type: 'State Route' },
+    { coords: [33.7850, -117.6368], route: 'SR-241', name: 'Foothill/Eastern Toll', type: 'Toll Road' },
+    { coords: [33.7166, -117.8341], route: 'I-5 South', name: 'Santa Ana Fwy', type: 'Interstate' },
+    { coords: [34.1479, -117.5873], route: 'I-210', name: 'Foothill Fwy', type: 'Interstate' },
+    { coords: [33.9310, -118.2808], route: 'I-110', name: 'Harbor Fwy', type: 'Interstate' },
+    { coords: [33.9286, -118.3310], route: 'I-105', name: 'Century Fwy', type: 'Interstate' },
+    { coords: [33.5937, -117.8383], route: 'SR-73', name: 'San Joaquin Hills Toll', type: 'Toll Road' },
+    { coords: [33.6930, -117.7850], route: 'SR-133', name: 'Laguna Fwy', type: 'State Route' },
+    { coords: [32.7157, -117.1611], route: 'I-5 SD', name: 'I-5 San Diego', type: 'Interstate' },
+    { coords: [32.7713, -117.0740], route: 'I-8', name: 'Mission Valley Fwy', type: 'Interstate' },
+    { coords: [32.8350, -117.1290], route: 'I-805', name: 'I-805 San Diego', type: 'Interstate' },
+    { coords: [32.6850, -117.0430], route: 'SR-54', name: 'South Bay Fwy', type: 'State Route' },
+    { coords: [34.0560, -117.2910], route: 'I-215', name: 'I-215 Inland', type: 'Interstate' },
+    { coords: [33.9870, -117.7360], route: 'SR-60', name: 'Pomona Fwy', type: 'State Route' },
+    { coords: [34.1700, -118.5950], route: 'US-101 W', name: 'Ventura Fwy', type: 'US Highway' }
 ];
 
 const heatData = [
@@ -256,6 +256,14 @@ const serviceProducts = {
             { name: 'Basic', price: '$249', unit: '/month', desc: 'Up to 50 devices', highlights: ['Business-hours support', 'Software updates only', 'Email ticketing system', '48-hour response SLA'], cta: 'Add to Cart' },
             { name: 'Professional', price: '$649', unit: '/month', desc: 'Up to 200 devices', highlights: ['24/7 phone + chat support', 'Software + firmware updates', 'Hardware swap program', '4-hour response SLA'], cta: 'Add to Cart', popular: true },
             { name: 'Enterprise', price: '$1,199', unit: '/month', desc: 'Unlimited devices', highlights: ['24/7 dedicated support line', 'All updates + custom patches', 'Next-day hardware replacement', '1-hour response SLA'], cta: 'Contact Sales' }
+        ]
+    },
+    testPayment: {
+        title: 'Payment Test', subtitle: 'Square Integration Test', color: '#dc2626', icon: 'ph-fill ph-credit-card',
+        desc: 'A $0.50 test service to verify Square payment processing is working correctly. Use this to confirm your payment integration end-to-end.',
+        features: ['Verify Square SDK connection', 'Test card tokenization', 'Confirm backend processing', 'Validate payment receipt'],
+        pricing: [
+            { name: 'Test Charge', price: '$0.50', unit: '/once', desc: 'One-time test', highlights: ['Verifies full payment pipeline', 'Confirms Square connection', 'Tests card processing', 'Generates test receipt'], cta: 'Add to Cart', popular: true }
         ]
     }
 };
@@ -754,16 +762,152 @@ function removeWeatherMarkers() {
 
 var trafficShowing = false;
 var trafficLines = [];
+var trafficTileLayer = null;
 
+// TomTom API key — paste yours from developer.tomtom.com (free tier: 50K tiles/day)
+var TOMTOM_API_KEY = '';
+
+// High-fidelity SoCal highway polylines — 20-40 waypoints each tracing actual road alignment
 var socalHighways = [
-    { name: 'I-5 (LA to SD)', points: [[34.05, -118.24], [33.95, -118.13], [33.82, -117.95], [33.68, -117.83], [33.45, -117.60], [33.15, -117.35], [32.90, -117.20], [32.72, -117.16]], color: '#ef4444' },
-    { name: 'I-10 (LA to IE)', points: [[34.05, -118.24], [34.06, -118.10], [34.06, -117.90], [34.06, -117.70], [34.06, -117.48], [34.06, -117.35]], color: '#f59e0b' },
-    { name: 'I-15 (IE to SD)', points: [[34.20, -117.30], [34.10, -117.29], [33.95, -117.25], [33.55, -117.15], [33.20, -117.10], [32.90, -117.08], [32.72, -117.16]], color: '#8b5cf6' },
-    { name: 'I-405 (LA Loop)', points: [[34.18, -118.45], [34.05, -118.43], [33.90, -118.39], [33.82, -118.35], [33.74, -118.05], [33.68, -117.87], [33.65, -117.83]], color: '#06b6d4' },
-    { name: 'SR-91 (OC to IE)', points: [[33.80, -118.05], [33.83, -117.95], [33.86, -117.82], [33.89, -117.65], [33.93, -117.50], [33.96, -117.38]], color: '#10b981' },
-    { name: 'I-710 (Port of LA)', points: [[33.78, -118.19], [33.82, -118.20], [33.88, -118.19], [33.95, -118.18], [34.02, -118.17]], color: '#e11d48' },
-    { name: 'I-110 (Harbor Fwy)', points: [[33.74, -118.28], [33.82, -118.28], [33.90, -118.27], [33.98, -118.26], [34.05, -118.27]], color: '#4f46e5' },
-    { name: 'SR-78 (North SD)', points: [[33.20, -117.38], [33.18, -117.25], [33.15, -117.10], [33.12, -116.95]], color: '#f97316' }
+    {
+        name: 'I-5 (Golden State / Santa Ana Fwy)',
+        points: [
+            [34.1710, -118.3640], [34.1380, -118.3550], [34.1100, -118.2970], [34.0850, -118.2670],
+            [34.0566, -118.2371], [34.0370, -118.2280], [34.0180, -118.2100], [33.9930, -118.1920],
+            [33.9710, -118.1700], [33.9520, -118.1530], [33.9280, -118.1270], [33.8980, -118.0720],
+            [33.8650, -117.9980], [33.8360, -117.9380], [33.8060, -117.8850], [33.7720, -117.8680],
+            [33.7350, -117.8570], [33.6940, -117.8430], [33.6480, -117.8320], [33.5870, -117.7720],
+            [33.5280, -117.7050], [33.4530, -117.6290], [33.3860, -117.5900], [33.3170, -117.5010],
+            [33.2280, -117.3960], [33.1440, -117.3300], [33.0640, -117.2630], [32.9770, -117.2260],
+            [32.9070, -117.2090], [32.8380, -117.2040], [32.7730, -117.1830], [32.7157, -117.1611]
+        ],
+        color: '#ef4444'
+    },
+    {
+        name: 'I-10 (San Bernardino Fwy)',
+        points: [
+            [34.0280, -118.2690], [34.0340, -118.2420], [34.0380, -118.2100], [34.0425, -118.1710],
+            [34.0460, -118.1380], [34.0480, -118.1050], [34.0510, -118.0640], [34.0530, -118.0240],
+            [34.0560, -117.9810], [34.0570, -117.9350], [34.0580, -117.8920], [34.0590, -117.8400],
+            [34.0580, -117.7940], [34.0570, -117.7480], [34.0570, -117.6970], [34.0570, -117.6400],
+            [34.0570, -117.5930], [34.0580, -117.5430], [34.0594, -117.4880], [34.0600, -117.4350],
+            [34.0630, -117.3800], [34.0700, -117.3300], [34.0780, -117.2890], [34.0870, -117.2380],
+            [34.0990, -117.1870], [34.1090, -117.1430]
+        ],
+        color: '#f59e0b'
+    },
+    {
+        name: 'I-15 (Barstow Fwy)',
+        points: [
+            [34.3080, -117.3800], [34.2700, -117.3600], [34.2370, -117.3400], [34.2070, -117.3200],
+            [34.1760, -117.3050], [34.1375, -117.2940], [34.1060, -117.2880], [34.0730, -117.2830],
+            [34.0560, -117.2910], [34.0240, -117.2830], [33.9830, -117.2680], [33.9340, -117.2490],
+            [33.8810, -117.2260], [33.8210, -117.2060], [33.7620, -117.1930], [33.7000, -117.1820],
+            [33.6260, -117.1690], [33.5420, -117.1530], [33.4530, -117.1380], [33.3530, -117.1220],
+            [33.2560, -117.1020], [33.1640, -117.0880], [33.0830, -117.0770], [32.9930, -117.0720],
+            [32.9100, -117.0750], [32.8370, -117.0880], [32.7780, -117.1110], [32.7250, -117.1530]
+        ],
+        color: '#8b5cf6'
+    },
+    {
+        name: 'I-405 (San Diego Fwy)',
+        points: [
+            [34.2280, -118.4720], [34.1950, -118.4620], [34.1710, -118.4540], [34.1400, -118.4440],
+            [34.1060, -118.4380], [34.0790, -118.4380], [34.0520, -118.4390], [34.0260, -118.4370],
+            [34.0020, -118.4260], [33.9720, -118.4100], [33.9460, -118.3810], [33.9200, -118.3690],
+            [33.8960, -118.3580], [33.8700, -118.3480], [33.8430, -118.3360], [33.8190, -118.3240],
+            [33.7970, -118.3170], [33.7740, -118.2340], [33.7620, -118.1060], [33.7470, -118.0330],
+            [33.7280, -117.9720], [33.7110, -117.9220], [33.6920, -117.8820], [33.6700, -117.8600],
+            [33.6520, -117.8360]
+        ],
+        color: '#06b6d4'
+    },
+    {
+        name: 'SR-91 (Riverside Fwy)',
+        points: [
+            [33.8100, -118.1010], [33.8140, -118.0510], [33.8190, -118.0100], [33.8230, -117.9720],
+            [33.8280, -117.9340], [33.8330, -117.8980], [33.8410, -117.8620], [33.8500, -117.8250],
+            [33.8600, -117.7850], [33.8696, -117.7472], [33.8790, -117.7080], [33.8880, -117.6700],
+            [33.8970, -117.6300], [33.9080, -117.5880], [33.9190, -117.5470], [33.9300, -117.5060],
+            [33.9420, -117.4630], [33.9530, -117.4210], [33.9600, -117.3800]
+        ],
+        color: '#10b981'
+    },
+    {
+        name: 'I-710 (Long Beach Fwy)',
+        points: [
+            [33.7620, -118.2130], [33.7760, -118.2100], [33.7920, -118.2110], [33.8050, -118.2120],
+            [33.8200, -118.2080], [33.8350, -118.2040], [33.8510, -118.1980], [33.8680, -118.1950],
+            [33.8840, -118.1910], [33.9020, -118.1890], [33.9190, -118.1850], [33.9380, -118.1800],
+            [33.9560, -118.1760], [33.9730, -118.1730], [33.9930, -118.1720], [34.0100, -118.1710],
+            [34.0210, -118.1700]
+        ],
+        color: '#e11d48'
+    },
+    {
+        name: 'I-110 (Harbor Fwy)',
+        points: [
+            [33.7380, -118.2810], [33.7510, -118.2800], [33.7660, -118.2800], [33.7810, -118.2800],
+            [33.7960, -118.2810], [33.8120, -118.2800], [33.8280, -118.2790], [33.8440, -118.2790],
+            [33.8580, -118.2790], [33.8750, -118.2800], [33.8920, -118.2800], [33.9100, -118.2790],
+            [33.9310, -118.2808], [33.9490, -118.2750], [33.9650, -118.2710], [33.9820, -118.2690],
+            [33.9990, -118.2660], [34.0160, -118.2640], [34.0300, -118.2620], [34.0420, -118.2620]
+        ],
+        color: '#4f46e5'
+    },
+    {
+        name: 'SR-78 (N. San Diego)',
+        points: [
+            [33.2170, -117.3960], [33.2060, -117.3830], [33.2010, -117.3590], [33.1980, -117.3320],
+            [33.1950, -117.3050], [33.1930, -117.2780], [33.1890, -117.2510], [33.1840, -117.2240],
+            [33.1790, -117.2000], [33.1730, -117.1730], [33.1660, -117.1430], [33.1590, -117.1130],
+            [33.1540, -117.0910], [33.1470, -117.0590], [33.1380, -117.0280], [33.1270, -116.9600]
+        ],
+        color: '#f97316'
+    },
+    {
+        name: 'I-210 (Foothill Fwy)',
+        points: [
+            [34.1880, -118.5340], [34.1830, -118.4930], [34.1770, -118.4520], [34.1710, -118.4140],
+            [34.1690, -118.3760], [34.1650, -118.3370], [34.1590, -118.2960], [34.1530, -118.2570],
+            [34.1610, -118.2180], [34.1620, -118.1780], [34.1570, -118.1370], [34.1530, -118.1000],
+            [34.1510, -118.0620], [34.1470, -118.0110], [34.1480, -117.9690], [34.1470, -117.9220],
+            [34.1500, -117.8620], [34.1530, -117.7940], [34.1510, -117.7250], [34.1479, -117.6540],
+            [34.1460, -117.5873], [34.1400, -117.5280], [34.1310, -117.4780], [34.1200, -117.4250]
+        ],
+        color: '#059669'
+    },
+    {
+        name: 'I-105 (Century Fwy)',
+        points: [
+            [33.9286, -118.3800], [33.9290, -118.3630], [33.9290, -118.3430], [33.9286, -118.3310],
+            [33.9290, -118.3060], [33.9280, -118.2830], [33.9280, -118.2580], [33.9280, -118.2330],
+            [33.9290, -118.2100], [33.9310, -118.1870], [33.9340, -118.1620], [33.9360, -118.1380],
+            [33.9380, -118.1130], [33.9400, -118.0900]
+        ],
+        color: '#7c3aed'
+    },
+    {
+        name: 'I-605 (San Gabriel River Fwy)',
+        points: [
+            [34.1100, -118.0930], [34.0900, -118.0900], [34.0690, -118.0870], [34.0480, -118.0860],
+            [34.0280, -118.0860], [34.0070, -118.0860], [33.9850, -118.0860], [33.9630, -118.0860],
+            [33.9420, -118.0860], [33.9217, -118.0862], [33.9000, -118.0850], [33.8780, -118.0830],
+            [33.8570, -118.0810], [33.8380, -118.0800], [33.8170, -118.0790], [33.7990, -118.0790],
+            [33.7810, -118.0830]
+        ],
+        color: '#0ea5e9'
+    },
+    {
+        name: 'SR-57 (Orange Fwy)',
+        points: [
+            [34.0380, -117.8640], [34.0220, -117.8580], [34.0050, -117.8520], [33.9880, -117.8480],
+            [33.9700, -117.8450], [33.9520, -117.8430], [33.9330, -117.8410], [33.9150, -117.8390],
+            [33.8960, -117.8360], [33.8770, -117.8350], [33.8560, -117.8340], [33.8330, -117.8290],
+            [33.8130, -117.8190], [33.7950, -117.8100]
+        ],
+        color: '#d946ef'
+    }
 ];
 
 function getTrafficCondition() {
@@ -780,12 +924,25 @@ function toggleTrafficLayer() {
     var btn = document.querySelector('[data-layer="traffic"]');
     if (trafficShowing) {
         if (btn) btn.classList.add('active');
+        // Add TomTom real-time traffic tile overlay if API key is set
+        if (TOMTOM_API_KEY && state.map && !trafficTileLayer) {
+            trafficTileLayer = L.tileLayer(
+                'https://api.tomtom.com/traffic/map/4/tile/flow/relative0/{z}/{x}/{y}.png?key=' + TOMTOM_API_KEY + '&tileSize=256',
+                { maxZoom: 19, opacity: 0.7, zIndex: 400 }
+            ).addTo(state.map);
+            logFeed('Traffic tiles: LIVE \u2014 TomTom real-time flow overlay active', 'color: #10b981; font-weight: 700;');
+        }
         addTrafficLines();
-        logFeed('Traffic layer: LIVE \u2014 showing ' + socalHighways.length + ' highways', 'color: #06b6d4; font-weight: 700;');
+        logFeed('Traffic layer: LIVE \u2014 showing ' + socalHighways.length + ' highways' + (TOMTOM_API_KEY ? ' + real-time tile overlay' : ''), 'color: #06b6d4; font-weight: 700;');
         state.trafficInterval = setInterval(updateTrafficLines, 30000);
     } else {
         if (btn) btn.classList.remove('active');
         removeTrafficLines();
+        // Remove TomTom tile layer
+        if (trafficTileLayer && state.map) {
+            state.map.removeLayer(trafficTileLayer);
+            trafficTileLayer = null;
+        }
         clearInterval(state.trafficInterval);
         logFeed('Traffic layer: Disabled', 'color: var(--text-muted);');
     }
@@ -794,6 +951,108 @@ function toggleTrafficLayer() {
 function addTrafficLines() {
     removeTrafficLines();
     if (!state.map) return;
+
+    // If TomTom API key is available, fetch real speed data for highways
+    if (TOMTOM_API_KEY) {
+        fetchRealTrafficData();
+        return;
+    }
+
+    // Fallback: time-of-day simulation with per-segment coloring
+    drawSimulatedTraffic();
+}
+
+function fetchRealTrafficData() {
+    var promises = socalHighways.map(function (hw) {
+        // Use the midpoint of each highway to query flow data
+        var mid = hw.points[Math.floor(hw.points.length / 2)];
+        var url = 'https://api.tomtom.com/traffic/services/4/flowSegmentData/relative0/10/json?point=' +
+            mid[0] + ',' + mid[1] + '&key=' + TOMTOM_API_KEY + '&unit=MPH';
+        return fetch(url).then(function (r) { return r.json(); }).then(function (data) {
+            var flow = data.flowSegmentData || {};
+            return {
+                highway: hw,
+                currentSpeed: flow.currentSpeed || null,
+                freeFlowSpeed: flow.freeFlowSpeed || null,
+                confidence: flow.confidence || 0,
+                currentTravelTime: flow.currentTravelTime || null,
+                freeFlowTravelTime: flow.freeFlowTravelTime || null
+            };
+        }).catch(function () {
+            return { highway: hw, currentSpeed: null, freeFlowSpeed: null, confidence: 0 };
+        });
+    });
+
+    Promise.all(promises).then(function (results) {
+        var congested = 0, moderate = 0, freeFlow = 0;
+        results.forEach(function (r) {
+            var hw = r.highway;
+            var lineColor, lineWeight, lineOpacity, segStatus, speed, delay;
+
+            if (r.currentSpeed !== null && r.freeFlowSpeed !== null) {
+                var ratio = r.currentSpeed / r.freeFlowSpeed;
+                speed = Math.round(r.currentSpeed);
+                if (ratio < 0.5) {
+                    segStatus = 'Congested'; lineColor = '#ef4444'; lineWeight = 7; lineOpacity = 0.9; congested++;
+                    delay = '+' + Math.round((r.currentTravelTime - r.freeFlowTravelTime) / 60) + ' min';
+                } else if (ratio < 0.8) {
+                    segStatus = 'Moderate'; lineColor = '#f59e0b'; lineWeight = 5; lineOpacity = 0.7; moderate++;
+                    delay = '+' + Math.round((r.currentTravelTime - r.freeFlowTravelTime) / 60) + ' min';
+                } else {
+                    segStatus = 'Free Flow'; lineColor = '#10b981'; lineWeight = 4; lineOpacity = 0.6; freeFlow++;
+                    delay = 'None';
+                }
+            } else {
+                // API returned no data for this segment — use simulation fallback
+                var variation = Math.random();
+                var cond = getTrafficCondition();
+                if (variation > 0.75) {
+                    segStatus = 'Congested'; lineColor = '#ef4444'; lineWeight = cond.weight + 2; lineOpacity = 0.9; speed = Math.round(10 + Math.random() * 20); congested++;
+                } else if (variation > 0.35) {
+                    segStatus = cond.level; lineColor = '#f59e0b'; lineWeight = cond.weight; lineOpacity = 0.7; speed = Math.round(30 + Math.random() * 25); moderate++;
+                } else {
+                    segStatus = 'Free Flow'; lineColor = '#10b981'; lineWeight = Math.max(cond.weight - 1, 2); lineOpacity = 0.6; speed = Math.round(55 + Math.random() * 15); freeFlow++;
+                }
+                delay = segStatus === 'Congested' ? '+' + Math.round(5 + Math.random() * 15) + ' min' : (segStatus === 'Free Flow' ? 'None' : '+' + Math.round(2 + Math.random() * 8) + ' min');
+            }
+
+            // Shadow/glow
+            var shadow = L.polyline(hw.points, {
+                color: lineColor, weight: lineWeight + 6, opacity: lineOpacity * 0.2,
+                lineCap: 'round', lineJoin: 'round'
+            }).addTo(state.map);
+            trafficLines.push(shadow);
+
+            // Main line
+            var statusDot = segStatus === 'Congested' ? '\uD83D\uDD34' : (segStatus === 'Free Flow' ? '\uD83D\uDFE2' : '\uD83D\uDFE1');
+            var popupContent = '<div style="min-width:200px;">' +
+                '<b style="font-size:14px;">' + hw.name + '</b><br>' +
+                '<div style="margin:6px 0;padding:6px 10px;border-radius:8px;background:' + lineColor + '22;border:1px solid ' + lineColor + '44;display:inline-block;">' +
+                '<span style="font-size:16px;">' + statusDot + '</span> ' +
+                '<span style="color:' + lineColor + ';font-weight:800;">' + segStatus + '</span></div><br>' +
+                '<span style="font-size:12px;color:#666;">Speed: <b>' + speed + ' mph</b></span>';
+            if (r.freeFlowSpeed !== null) {
+                popupContent += '<br><span style="font-size:12px;color:#666;">Free-flow: <b>' + Math.round(r.freeFlowSpeed) + ' mph</b></span>';
+            }
+            popupContent += '<br><span style="font-size:12px;color:#666;">Delay: <b>' + delay + '</b></span>';
+            if (r.confidence > 0) {
+                popupContent += '<br><span style="font-size:10px;color:#999;">Confidence: ' + Math.round(r.confidence * 100) + '%</span>';
+            }
+            popupContent += '<br><span style="font-size:10px;color:#10b981;font-weight:700;">\u25CF LIVE \u2014 TomTom Traffic</span>';
+            popupContent += '<br><span style="font-size:10px;color:#999;"><i>Updated: ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</i></span></div>';
+
+            var line = L.polyline(hw.points, {
+                color: lineColor, weight: lineWeight, opacity: lineOpacity,
+                lineCap: 'round', lineJoin: 'round'
+            }).addTo(state.map);
+            line.bindPopup(popupContent);
+            trafficLines.push(line);
+        });
+        logFeed('Traffic: \uD83D\uDFE2 ' + freeFlow + ' free | \uD83D\uDFE1 ' + moderate + ' moderate | \uD83D\uDD34 ' + congested + ' congested \u2014 LIVE ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), 'color: #06b6d4; font-weight: 600;');
+    });
+}
+
+function drawSimulatedTraffic() {
     var cond = getTrafficCondition();
     var congested = 0, moderate = 0, freeFlow = 0;
     socalHighways.forEach(function (hw) {
@@ -826,7 +1085,7 @@ function addTrafficLines() {
             '<span style="color:' + lineColor + ';font-weight:800;">' + segStatus + '</span></div><br>' +
             '<span style="font-size:12px;color:#666;">Avg Speed: <b>' + speed + ' mph</b></span><br>' +
             '<span style="font-size:12px;color:#666;">Delay: <b>' + (segStatus === 'Congested' ? '+' + Math.round(5 + Math.random() * 15) + ' min' : (segStatus === 'Free Flow' ? 'None' : '+' + Math.round(2 + Math.random() * 8) + ' min')) + '</b></span><br>' +
-            '<span style="font-size:10px;color:#999;"><i>Updated: ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</i></span>' +
+            '<span style="font-size:10px;color:#999;"><i>Simulated \u2022 ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</i></span>' +
             '</div>'
         );
         trafficLines.push(line);
@@ -1179,7 +1438,7 @@ var squarePayments = null;
 async function initSquareCard() {
     // Square Sandbox App ID
     var SQUARE_APP_ID = 'sandbox-sq0idb-01vNvGY3276PzvemlFT2kg';
-    var SQUARE_LOCATION_ID = 'REPLACE_WITH_YOUR_LOCATION_ID';
+    var SQUARE_LOCATION_ID = 'LTE7CXF3JQWH9';
 
     try {
         if (typeof Square !== 'undefined') {
@@ -1257,7 +1516,7 @@ async function processSquarePayment(amountCents) {
         }
 
         // Send payment to backend
-        var resp = await fetch('http://localhost:5000/api/v1/payment', {
+        var resp = await fetch('http://localhost:5050/api/v1/payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

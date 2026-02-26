@@ -422,12 +422,9 @@ function openCart() {
 function removeFromCart(idx) { state.cart.splice(idx, 1); updateCartBadge(); openCart(); }
 function clearCart() { state.cart = []; updateCartBadge(); openCart(); }
 
-function checkout() {
-    var body = document.getElementById('modal-body');
-    body.innerHTML = '<div style="text-align:center;padding:40px 0;"><div style="width:72px;height:72px;background:#10b98120;color:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px;"><i class="ph-bold ph-check-circle"></i></div><h3 style="font-size:22px;margin-bottom:8px;">Order Confirmed!</h3><p style="font-size:14px;color:var(--text-secondary);margin-bottom:24px;">Your 14-day free trial is now active for all ' + state.cart.length + ' item(s).</p><p style="font-size:12px;color:var(--text-muted);margin-bottom:20px;">A confirmation email will be sent. Our team will contact you within 24 hours.</p><button onclick="state.cart=[];updateCartBadge();closeModal();" style="padding:14px 32px;background:var(--iwin);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;box-shadow:0 4px 16px rgba(79,70,229,0.3);">Return to Dashboard</button></div>';
-    logFeed('ORDER CONFIRMED: ' + state.cart.length + ' item(s)', 'color: var(--success); font-weight: 900;');
-    playTone(660, 0.3);
-}
+// checkout() is defined in the Square Web Payments SDK section of smart-app.js
+// Do NOT add a checkout function here — it will override the Square payment integration
+
 
 // ============ AUDIO ============
 

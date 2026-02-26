@@ -504,6 +504,18 @@
                     <div style="margin-top:12px;font-size:20px;font-weight:900;color:#10b981;">From $249<span
                             style="font-size:11px;font-weight:400;color:var(--text-muted);">/month</span></div>
                 </div>
+                <div class="pillar-card" onclick="openServiceModal('testPayment')" tabindex="0" role="button"
+                    aria-label="View Payment Test" style="border-left:4px solid #dc2626;">
+                    <div class="pillar-top">
+                        <div class="pillar-icon" style="background:rgba(220,38,38,0.1);color:#dc2626;"><i
+                                class="ph-fill ph-credit-card"></i></div>
+                        <span class="pillar-badge" style="background:rgba(220,38,38,0.1);color:#dc2626;">Test</span>
+                    </div>
+                    <h4>Payment Test</h4>
+                    <p>Verify Square payment integration with a $0.50 test charge.</p>
+                    <div style="margin-top:12px;font-size:20px;font-weight:900;color:#dc2626;">$0.50<span
+                            style="font-size:11px;font-weight:400;color:var(--text-muted);">/once</span></div>
+                </div>
             </div>
         </section>
 
@@ -1311,8 +1323,20 @@
         <i class="ph-bold ph-chats-circle"></i>
     </button>
 
+    <!-- Force clear old service worker cache -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                registrations.forEach(function (reg) { reg.unregister(); });
+            });
+            caches.keys().then(function (names) {
+                names.forEach(function (name) { caches.delete(name); });
+            });
+        }
+    </script>
+
     <!-- ======== APP JAVASCRIPT ======== -->
-    <script src="smart-app.js"></script>
+    <script src="smart-app.js?v=3"></script>
 
 </body>
 
